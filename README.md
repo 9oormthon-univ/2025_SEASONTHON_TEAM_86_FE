@@ -2,7 +2,7 @@
 
 - 브랜치명 규칙
   
-  ex). feat/#1
+  ex). ssaramglo/feat_#1
   
 
 - Commit 메시지 규칙

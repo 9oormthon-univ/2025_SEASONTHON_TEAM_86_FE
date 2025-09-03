@@ -17,4 +17,4 @@
 
 - PR 제목
   
-  ex). feat/#6 기본 엔티티 생성
+  ex). ssarangkim/feat_#2 폴더 구조 세분화

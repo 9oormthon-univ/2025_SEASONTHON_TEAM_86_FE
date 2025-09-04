@@ -1,5 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import voteIcon from '../../assets/vote.svg';
+import voteOrangeIcon from '../../assets/vote_orange.svg';
+
 
 const Container = styled.div`
   padding: 20px 0;
@@ -8,16 +12,22 @@ const Container = styled.div`
 
 const VoteItem = styled.div`
   background-color: #D5F08A;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 18px;
   display: flex; /* 가로 배치 */
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   gap: 15px;
   width: 70%; 
   box-sizing: border-box;
   margin-left: 20px;
+  cursor: pointer; 
+
+  /* hover 시 전체 흐려짐 */
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const FoodImage = styled.img`
@@ -52,78 +62,123 @@ const Description = styled.p`
 const Side = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 10px;
+  align-items:center;
+  margin-top: 22px;
 `;
 
 const Votes = styled.span`
-  font-size: 14px;
+  flex: 1;                        /* 남는 공간 차지 */
+  display: flex;                  /* 안쪽에서도 flex */
+  align-items: center;            /* 세로 중앙 */
+  justify-content: center;        /* 가로 중앙 */
+  font-size: 15px;
   font-weight: 600;
   color: #444;
-  margin-right: 10px;
 `;
 
 const VoteButton = styled.button`
-  background: #FF6B00;
-  color: white;
-  border: none;
-  border-radius: 15px;
-  padding: 3px 17px;
+  background: #D5F08A;
+  color: #FF5D17;
+  border: 2px solid #FF5D17;
+  border-radius: 17px;
+  padding: 5px 18px;
   cursor: pointer;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  position: relative;
 
   &:hover {
     opacity: 0.9;
+    background: #FF5D17;
+    color: #D5F08A;
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
+  .default-icon {
+    display: block;
+  }
+
+  .hover-icon {
+    display: none;
+  }
+
+  &:hover .default-icon {
+    display: none;
+  }
+
+  &:hover .hover-icon {
+    display: block;
   }
 `;
 
-export default function VoteList({ sortOrder }) {
-  const mockData = [
-    {
-      id: 1,
-      title: 'Surfer Pizza 4계절 피자',
-      desc: '시원한 바다향 가득한 4계절 피자, 토마토 소스와 치즈의 조화!',
-      votes: 231,
-      img: 'https://via.placeholder.com/100',
-    },
-    {
-      id: 2,
-      title: 'Fever Pizza 핫치킨 피자',
-      desc: '매콤한 핫치킨이 올라간 화끈한 피자!',
-      votes: 158,
-      img: 'https://via.placeholder.com/100',
-    },
-    {
-      id: 3,
-      title: 'Univo Pizza 올리브 피자',
-      desc: '신선한 올리브와 치즈가 어우러진 담백한 피자!',
-      votes: 102,
-      img: 'https://via.placeholder.com/100',
-    },
-  ];
-
-  // ✅ 정렬 로직 추가
-  const sortedData = [...mockData].sort((a, b) => {
-    if (sortOrder === 'asc') return a.votes - b.votes;   // 표 적은 순
-    return b.votes - a.votes; // 표 많은 순 (기본)
-  });
-
-  return (
-    <Container>
-      {sortedData.map((item) => (
-        <VoteItem key={item.id}>
-          <FoodImage src={item.img} alt={item.title} />
-          <Info>
-            <Title>{item.title}</Title>
-            <Description>{item.desc}</Description>
-          </Info>
-          <Side>
-            <Votes>투표 수: {item.votes}</Votes>
-            <VoteButton>투표하기</VoteButton>
-          </Side>
-        </VoteItem>
-      ))}
-    </Container>
-  );
-}
+export default function VoteList({ sortOrder, onItemClick, category }) {
+    const [hover, setHover] = useState(false);
+    const mockData = [
+      {
+        id: 1,
+        title: 'Surfer Pizza 4계절 피자',
+        desc: '시원한 바다향 가득한 4계절 피자!',
+        votes: 231,
+        img: 'https://via.placeholder.com/100',
+        categoryId: 4, // 양식
+      },
+      {
+        id: 2,
+        title: 'Fever Pizza 핫치킨 피자',
+        desc: '매콤한 핫치킨 피자!',
+        votes: 158,
+        img: 'https://via.placeholder.com/100',
+        categoryId: 4, // 양식
+      },
+      {
+        id: 3,
+        title: 'Univo Sushi 모듬 초밥',
+        desc: '신선한 초밥 세트!',
+        votes: 102,
+        img: 'https://via.placeholder.com/100',
+        categoryId: 2, // 일식
+      },
+    ];
+  
+    // 카테고리 필터
+    const filteredData = mockData.filter(item => item.categoryId === category);
+  
+    // 정렬
+    const sortedData = [...filteredData].sort((a, b) => {
+      if (sortOrder === 'asc') return a.votes - b.votes;
+      return b.votes - a.votes;
+    });
+  
+    return (
+      <Container>
+        {sortedData.map((item) => (
+          <VoteItem key={item.id} onClick={() => onItemClick?.(item.id)}>
+            <FoodImage src={item.img} alt={item.title} />
+            <Info>
+              <Title>{item.title}</Title>
+              <Description>{item.desc}</Description>
+            </Info>
+            <Side>
+              <Votes>투표 수: {item.votes}</Votes>
+              <VoteButton>
+              <img src={voteOrangeIcon} alt="vote icon" className="default-icon" />
+              <img src={voteIcon} alt="vote icon hover" className="hover-icon" />
+                투표하기
+              </VoteButton>
+            </Side>
+          </VoteItem>
+        ))}
+      </Container>
+    );
+  }
+  

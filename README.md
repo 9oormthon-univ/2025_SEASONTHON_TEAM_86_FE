@@ -2,7 +2,7 @@
 
 - 브랜치명 규칙
   
-  ex). feat/#1
+  ex). ssarangkim/feat_#1
   
 
 - Commit 메시지 규칙
@@ -17,4 +17,4 @@
 
 - PR 제목
   
-  ex). feat/#6 기본 엔티티 생성
+  ex). ssarangkim/feat_#2 폴더 구조 세분화

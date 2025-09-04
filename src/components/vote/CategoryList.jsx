@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
-import hansikImg from '../../assets/hansik.png';
-import ilsikImg from '../../assets/ilsik.png';
-import jungsikImg from '../../assets/jungsik.png';
-import bunsikImg from '../../assets/bunsik.png';
-import yangsikImg from '../../assets/yangsik.png';
-import fastfoodImg from '../../assets/fastfood.png';
-import cafeImg from '../../assets/cafe.png';
-import etcImg from '../../assets/etc.png';
+import { useState } from "react";
+import styled, { css } from "styled-components";
+import hansikImg from "../../assets/hansik.png";
+import ilsikImg from "../../assets/ilsik.png";
+import jungsikImg from "../../assets/jungsik.png";
+import bunsikImg from "../../assets/bunsik.png";
+import yangsikImg from "../../assets/yangsik.png";
+import fastfoodImg from "../../assets/fastfood.png";
+import cafeImg from "../../assets/cafe.png";
+import etcImg from "../../assets/etc.png";
 
 const categories = [
-  { id: 1, name: '한식', img: hansikImg },
-  { id: 2, name: '일식', img: ilsikImg },
-  { id: 3, name: '중식', img: jungsikImg },
-  { id: 4, name: '양식', img: yangsikImg },
-  { id: 5, name: '분식', img: bunsikImg },
-  { id: 6, name: '패스트푸드', img: fastfoodImg },
-  { id: 7, name: '카페/디저트', img: cafeImg },
-  { id: 8, name: '기타', img: etcImg },
+  { id: 1, name: "한식", img: hansikImg },
+  { id: 2, name: "일식", img: ilsikImg },
+  { id: 3, name: "중식", img: jungsikImg },
+  { id: 4, name: "양식", img: yangsikImg },
+  { id: 5, name: "분식", img: bunsikImg },
+  { id: 6, name: "패스트푸드", img: fastfoodImg },
+  { id: 7, name: "카페/디저트", img: cafeImg },
+  { id: 8, name: "기타", img: etcImg },
 ];
 
 // CategoryList.jsx
 export default function CategoryList({ selected, onSelect }) {
-    return (
-      <CategoryWrapper>
+  return (
+    <CategoryWrapper>
       <Wrapper>
         {categories.map((cat) => (
           <CategoryItem
@@ -38,16 +38,14 @@ export default function CategoryList({ selected, onSelect }) {
           </CategoryItem>
         ))}
       </Wrapper>
-      </CategoryWrapper>
-    );
-  }
-  
+    </CategoryWrapper>
+  );
+}
 
-  const CategoryWrapper = styled.div`
-
+const CategoryWrapper = styled.div`
   border-bottom: 2px solid #e0e0e0;
   display: flex;
-  justify-content: center;    /* 가운데 정렬 */
+  justify-content: center; /* 가운데 정렬 */
 `;
 
 const Wrapper = styled.div`
@@ -55,7 +53,6 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-around; /* 간격 일정하게 */
   gap: 20px;
-
 `;
 
 const CategoryItem = styled.div`
@@ -92,22 +89,21 @@ const Label = styled.span`
   margin-top: 8px;
   font-size: 15px;
   font-weight: 600;
-  color: ${(props) => (props.$active ? '#000' : '#888')};
+  color: ${(props) => (props.$active ? "#000" : "#888")};
   position: relative;
   padding-bottom: 5px; /* 텍스트와 밑줄 간격 */
 
-
-${(props) =>
+  ${(props) =>
     props.$active &&
     css`
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -3px;
         left: 50%;
         width: 130px;
         height: 4px;
-        background: #FF5D17;
+        background: #ff5d17;
         transform: translateX(-50%);
       }
     `}

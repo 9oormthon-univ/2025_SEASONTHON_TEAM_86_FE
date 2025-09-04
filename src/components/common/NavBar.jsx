@@ -1,16 +1,17 @@
-import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import logo from '../../assets/logo.svg';
-import searchGray from '../../assets/search.svg';
-import searchOrange from '../../assets/search_orange.svg';
+import { NavLink, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import logo from "../../assets/logo.svg";
+import searchGray from "../../assets/search.svg";
+import searchOrange from "../../assets/search_orange.svg";
 
 export default function NavBar() {
   const navigate = useNavigate();
 
   return (
     <Bar>
-      <Logo><img src={logo} alt="Logo" /></Logo>
+      <Logo>
+        <img src={logo} alt="Logo" />
+      </Logo>
       <Menu>
         <StyledLink to="/">홈 home</StyledLink>
         <StyledLink to="/vote">투표 vote</StyledLink>
@@ -33,7 +34,7 @@ export default function NavBar() {
 const Bar = styled.nav`
   width: 100%;
   height: 56px;
-  background: #D5F08A;
+  background: #d5f08a;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,7 +64,7 @@ const Menu = styled.div`
 const StyledLink = styled(NavLink)`
   font-size: 16px;
   font-weight: 600;
-  color: #1E4635;
+  color: #1e4635;
   text-decoration: none;
   height: 56px;
   display: flex;
@@ -71,13 +72,13 @@ const StyledLink = styled(NavLink)`
   position: relative;
 
   &.active::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 3px;
-    background: #1E4635;
+    background: #1e4635;
   }
 
   &:hover {
@@ -93,13 +94,13 @@ const SearchLink = styled(NavLink)`
   position: relative;
 
   &.active::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 3px;
-    background: #1E4635;
+    background: #1e4635;
   }
 `;
 
@@ -134,8 +135,8 @@ const SearchForm = styled.form`
 `;
 
 const LoginButton = styled.button`
-  background: #FF6B00;
-  color: #D5F08A;
+  background: #ff6b00;
+  color: #d5f08a;
   border: none;
   border-radius: 20px;
   padding: 7px 18px;

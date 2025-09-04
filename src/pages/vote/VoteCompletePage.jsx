@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/common/NavBar";
+import arrow from "../../assets/arrow.svg";
 
 export default function VoteCompletePage() {
   const navigate = useNavigate();
@@ -21,10 +22,14 @@ export default function VoteCompletePage() {
       <NavBar />
       <Content>
         <Title>
-          <span>투표가 완료</span> 되었어요!
+          <span>투표</span>
+          <span className="black">가</span>
+          <span> 완료</span> 되었어요!
         </Title>
         <Subtitle>결과가 발표된 후 확인해 주세요.</Subtitle>
-        <BackButton onClick={() => navigate(-1)}>←</BackButton>
+        <BackButton onClick={() => navigate('/vote/${id}')}>
+          <img src={arrow} alt="뒤로가기" />
+        </BackButton>
       </Content>
     </Wrapper>
   );
@@ -55,12 +60,13 @@ const Content = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  transform: translateY(-10%);
 `;
 
 const Title = styled.h1`
-  font-size: 28px;
+  font-size: 50px;
   font-weight: 800;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 
   span {
     color: #ff5d17;
@@ -68,13 +74,13 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.p`
-  font-size: 16px;
+  font-size: 23px;
   color: #333;
-  margin-bottom: 40px;
+  margin-bottom: 80px;
 `;
 
 const BackButton = styled.button`
-  font-size: 20px;
+  font-size: 50px;
   background: none;
   border: none;
   cursor: pointer;
@@ -82,5 +88,10 @@ const BackButton = styled.button`
 
   &:hover {
     color: #ff5d17;
+  }
+
+  img{
+  width:30px;
+  hegiht:30px;
   }
 `;

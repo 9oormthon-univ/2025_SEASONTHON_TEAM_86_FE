@@ -48,7 +48,7 @@ const Bar = styled.nav`
 
 const Logo = styled.div`
   img {
-    height: 40px;
+    height: 36px;
     width: auto;
     display: block;
   }

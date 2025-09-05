@@ -19,7 +19,8 @@ const VoteItem = styled.div`
   align-items: stretch;
   justify-content: space-between;
   gap: 15px;
-  width: 70%; 
+  width: 100%; 
+  max-width: 900px;
   box-sizing: border-box;
   margin-left: 20px;
   cursor: pointer; 

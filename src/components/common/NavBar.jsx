@@ -15,7 +15,7 @@ export default function NavBar() {
         <StyledLink to="/">홈 home</StyledLink>
         <StyledLink to="/vote">투표 vote</StyledLink>
         <StyledLink to="/results">결과 result</StyledLink>
-        <SearchLink to="/search" end>
+        <SearchLink to="/search">
           {({ isActive }) => (
             <SearchButton $active={isActive}>
               <img src={isActive ? searchOrange : searchGray} alt="search" />

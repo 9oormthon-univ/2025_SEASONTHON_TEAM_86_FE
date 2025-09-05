@@ -7,6 +7,7 @@ import VoteCompletePage from '../pages/vote/VoteCompletePage';
 import VoteDetailPage from '../pages/vote/VoteDetailPage';
 import SurveyPage from '../pages/vote/SurveyPage';
 import SearchPage from '../pages/search/SearchPage';
+import SearchResultPage from '../pages/search/SearchResultPage';
 // import ResultsPage from '../pages/ResultsPage';
 
 
@@ -29,6 +30,7 @@ function AppRoutes() {
 
         {/* 검색 */}
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/search/:keyword" element={<SearchResultPage />} />
 
       </Routes>
     </BrowserRouter>

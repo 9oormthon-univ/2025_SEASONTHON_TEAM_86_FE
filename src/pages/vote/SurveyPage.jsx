@@ -36,7 +36,7 @@ const DotWrapper = styled.div`
 `;
 
 const Dot = styled.span`
-  font-size: 37px;
+  font-size: 39px;
   color: #FF6B00;
   line-height: 1;
 `;

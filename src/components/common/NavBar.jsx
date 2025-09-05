@@ -8,7 +8,7 @@ export default function NavBar() {
   const navigate = useNavigate();
 
     // 나중에는 API에서 받아올 값 (지금은 임시로 설정)
-    const isMerchant = true; // true면 가맹점주, false면 일반 사용자
+    const isMerchant = false; // true면 가맹점주, false면 일반 사용자
 
   return (
     <Bar>
@@ -57,7 +57,7 @@ const Bar = styled.nav`
 
 const Logo = styled.div`
   img {
-    height: 40px;
+    height: 36px;
     width: auto;
     display: block;
   }

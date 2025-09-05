@@ -5,6 +5,7 @@ import VotePage from '../pages/vote/VotePage';
 import VoteCompletePage from '../pages/vote/VoteCompletePage';
 import VoteDetailPage from '../pages/vote/VoteDetailPage';
 import SurveyPage from '../pages/vote/SurveyPage';
+import ResultsPage from '../pages/ResultsPage';
 import SearchPage from '../pages/search/SearchPage';
 import SearchResultPage from '../pages/search/SearchResultPage';
 import RegisterPage from '../pages/register/RegisterPage';
@@ -23,7 +24,7 @@ function AppRoutes() {
         <Route path="/" element={<HomePage />} />
 
         {/* 투표 */}
-        <Route path="/vote" element={<VotePage />} /> 
+        <Route path="/vote" element={<VotePage />} />
         <Route path="/vote/:categoryId" element={<VotePage />} />
         <Route path="/vote/:categoryId/:id" element={<VoteDetailPage />} />
         <Route path="/vote/:categoryId/:id/complete" element={<VoteCompletePage />} />
@@ -35,7 +36,7 @@ function AppRoutes() {
         <Route path="/register/check" element={<RegisterCheckPage />} />
 
         {/* 결과 */}
-        {/* <Route path="/results" element={<ResultsPage />} /> */}
+        <Route path="/results" element={<ResultsPage />} /> 
         <Route path="/results/:restaurantId" element={<ResultsSurveyPage />} />
         <Route path="/results/:restaurantId/confirm" element={<ConfirmPage />} />
         <Route path="/results/:restaurantId/reject" element={<RejectPage />} />
@@ -43,7 +44,6 @@ function AppRoutes() {
         {/* 검색 */}
         <Route path="/search" element={<SearchPage />} />
         <Route path="/search/:keyword" element={<SearchResultPage />} />
-
       </Routes>
     </BrowserRouter>
   );

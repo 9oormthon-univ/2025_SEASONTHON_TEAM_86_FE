@@ -1,34 +1,100 @@
+/* Regular */
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Medium */
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* SemiBold */
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold */
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Poppins */
+@font-face {
+  font-family: "Poppins";
+  src: url("./assets/fonts/27231098576.ttf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Poppins Bold */
+@font-face {
+  font-family: "Poppins Bold";
+  src: url("./assets/fonts/26433847794.ttf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
+  --bg: #f6f3ee; /* 전체 배경색 */
+  --text: #213547; /* 기본 텍스트 색 */
+  --accent: #ff5d17; /* 포인트 컬러 (주황색) */
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  /* 폰트 및 텍스트 렌더링 기본 설정 */
+  font-family: "Pretendard", "Poppins", "Poppins Bold", system-ui, Avenir,
+    Helvetica, Arial, sans-serif;
+  line-height: 1.5; /* 기본 줄간격 */
+  font-weight: 400; /* 기본 글자 두께 */
+  font-synthesis: none; /* 브라우저가 가짜 Bold/Italic을 만들지 않도록 설정 */
+  text-rendering: optimizeLegibility; /* 글자 가독성을 높이려는 렌더링 힌트 */
+  -webkit-font-smoothing: antialiased; /* macOS/WebKit에서 글자 선명하게 */
+  -moz-osx-font-smoothing: grayscale; /* macOS/Firefox에서 글자 선명하게 */
 }
 
+/* html, body를 화면 전체 높이에 맞춤 */
+html,
 body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    background-color: #F6F3EE; /* 기본 배경 */
-    color: #213547; /* 기본 텍스트 색 */
+  height: 100%;
 }
 
+/* body 기본 스타일 */
+body {
+  margin: 0; /* 브라우저 기본 여백 제거 */
+  min-height: 100vh; /* 최소 높이를 화면 전체로 */
+  background-color: var(--bg); /* 위에서 정의한 배경색 사용 */
+  color: var(--text); /* 기본 글자색 */
+  -webkit-font-smoothing: antialiased; /* 글자 렌더링 부드럽게 */
+}
+
+/* 링크 기본 스타일 */
 a {
-    text-decoration: none;
-    color: inherit; /* 링크도 기본 텍스트 색상 */
+  color: inherit; /* 부모의 글자색 */
+  text-decoration: none; /* 밑줄 제거 */
 }
 
+/* 버튼 기본 리셋 */
 button {
-    border: none;
-    padding: 0;
-    margin: 0;
-    font-family: inherit;
-    background: none;
-    cursor: pointer;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit; /* 상속된 폰트 사용 */
+  background: none;
+  cursor: pointer;
 }

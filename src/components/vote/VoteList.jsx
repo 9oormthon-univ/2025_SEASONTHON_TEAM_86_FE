@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import voteIcon from '../../assets/vote.svg';
-import voteOrangeIcon from '../../assets/vote_orange.svg';
-
+import { useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import voteIcon from "../../assets/vote.svg";
+import voteOrangeIcon from "../../assets/vote_orange.svg";
 
 const Container = styled.div`
   padding: 20px 0;
@@ -11,7 +10,7 @@ const Container = styled.div`
 `;
 
 const VoteItem = styled.div`
-  background-color: #D5F08A;
+  background-color: #d5f08a;
   margin-bottom: 40px;
   padding: 15px;
   border-radius: 18px;
@@ -23,7 +22,7 @@ const VoteItem = styled.div`
   max-width: 900px;
   box-sizing: border-box;
   margin-left: 20px;
-  cursor: pointer; 
+  cursor: pointer;
 
   /* hover 시 전체 흐려짐 */
   &:hover {
@@ -43,7 +42,7 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start; 
+  align-items: flex-start;
   font-size: 17px;
 `;
 
@@ -51,7 +50,7 @@ const Title = styled.h3`
   margin: 0;
   font-size: 20px;
   font-weight: bold;
-  color: #FF6B00;
+  color: #ff6b00;
 `;
 
 const Description = styled.p`
@@ -63,24 +62,24 @@ const Description = styled.p`
 const Side = styled.div`
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   margin-top: 22px;
 `;
 
 const Votes = styled.span`
-  flex: 1;                        /* 남는 공간 차지 */
-  display: flex;                  /* 안쪽에서도 flex */
-  align-items: center;            /* 세로 중앙 */
-  justify-content: center;        /* 가로 중앙 */
+  flex: 1; /* 남는 공간 차지 */
+  display: flex; /* 안쪽에서도 flex */
+  align-items: center; /* 세로 중앙 */
+  justify-content: center; /* 가로 중앙 */
   font-size: 15px;
   font-weight: 600;
   color: #444;
 `;
 
 const VoteButton = styled.button`
-  background: #D5F08A;
-  color: #FF5D17;
-  border: 2px solid #FF5D17;
+  background: #d5f08a;
+  color: #ff5d17;
+  border: 2px solid #ff5d17;
   border-radius: 17px;
   padding: 5px 18px;
   cursor: pointer;
@@ -95,8 +94,8 @@ const VoteButton = styled.button`
 
   &:hover {
     opacity: 0.9;
-    background: #FF5D17;
-    color: #D5F08A;
+    background: #ff5d17;
+    color: #d5f08a;
   }
 
   img {
@@ -123,63 +122,70 @@ const VoteButton = styled.button`
 `;
 
 export default function VoteList({ sortOrder, onItemClick, category }) {
-    const [hover, setHover] = useState(false);
-    const mockData = [
-      {
-        id: 1,
-        title: 'Surfer Pizza 4계절 피자',
-        desc: '시원한 바다향 가득한 4계절 피자!',
-        votes: 231,
-        img: 'https://via.placeholder.com/100',
-        categoryId: 4, // 양식
-      },
-      {
-        id: 2,
-        title: 'Fever Pizza 핫치킨 피자',
-        desc: '매콤한 핫치킨 피자!',
-        votes: 158,
-        img: 'https://via.placeholder.com/100',
-        categoryId: 4, // 양식
-      },
-      {
-        id: 3,
-        title: 'Univo Sushi 모듬 초밥',
-        desc: '신선한 초밥 세트!',
-        votes: 102,
-        img: 'https://via.placeholder.com/100',
-        categoryId: 2, // 일식
-      },
-    ];
-  
-    // 카테고리 필터
-    const filteredData = mockData.filter(item => item.categoryId === category);
-  
-    // 정렬
-    const sortedData = [...filteredData].sort((a, b) => {
-      if (sortOrder === 'asc') return a.votes - b.votes;
-      return b.votes - a.votes;
-    });
-  
-    return (
-      <Container>
-        {sortedData.map((item) => (
-          <VoteItem key={item.id} onClick={() => onItemClick?.(item.id)}>
-            <FoodImage src={item.img} alt={item.title} />
-            <Info>
-              <Title>{item.title}</Title>
-              <Description>{item.desc}</Description>
-            </Info>
-            <Side>
-              <Votes>투표 수: {item.votes}</Votes>
-              <VoteButton>
-              <img src={voteOrangeIcon} alt="vote icon" className="default-icon" />
-              <img src={voteIcon} alt="vote icon hover" className="hover-icon" />
-                투표하기
-              </VoteButton>
-            </Side>
-          </VoteItem>
-        ))}
-      </Container>
-    );
-  }
-  
+  const [hover, setHover] = useState(false);
+  const mockData = [
+    {
+      id: 1,
+      title: "Surfer Pizza 4계절 피자",
+      desc: "시원한 바다향 가득한 4계절 피자!",
+      votes: 231,
+      img: "https://via.placeholder.com/100",
+      categoryId: 4, // 양식
+    },
+    {
+      id: 2,
+      title: "Fever Pizza 핫치킨 피자",
+      desc: "매콤한 핫치킨 피자!",
+      votes: 158,
+      img: "https://via.placeholder.com/100",
+      categoryId: 4, // 양식
+    },
+    {
+      id: 3,
+      title: "Univo Sushi 모듬 초밥",
+      desc: "신선한 초밥 세트!",
+      votes: 102,
+      img: "https://via.placeholder.com/100",
+      categoryId: 2, // 일식
+    },
+  ];
+
+  // 카테고리 필터
+  const filteredData = mockData.filter((item) => item.categoryId === category);
+
+  // 정렬
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (sortOrder === "asc") return a.votes - b.votes;
+    return b.votes - a.votes;
+  });
+
+  return (
+    <Container>
+      {sortedData.map((item) => (
+        <VoteItem key={item.id} onClick={() => onItemClick?.(item.id)}>
+          <FoodImage src={item.img} alt={item.title} />
+          <Info>
+            <Title>{item.title}</Title>
+            <Description>{item.desc}</Description>
+          </Info>
+          <Side>
+            <Votes>투표 수: {item.votes}</Votes>
+            <VoteButton>
+              <img
+                src={voteOrangeIcon}
+                alt="vote icon"
+                className="default-icon"
+              />
+              <img
+                src={voteIcon}
+                alt="vote icon hover"
+                className="hover-icon"
+              />
+              투표하기
+            </VoteButton>
+          </Side>
+        </VoteItem>
+      ))}
+    </Container>
+  );
+}

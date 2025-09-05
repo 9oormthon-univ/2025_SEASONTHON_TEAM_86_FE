@@ -10,6 +10,9 @@ import SearchResultPage from '../pages/search/SearchResultPage';
 import RegisterPage from '../pages/register/RegisterPage';
 import RegisterCompletePage from '../pages/register/RegisterCompletePage'
 import RegisterCheckPage from "../pages/register/RegisterCheckPage";
+import ResultsSurveyPage from "../pages/ResultsSurveyPage"
+import ConfirmPage from "../pages/ConfirmPage"
+import RejectPage from "../pages/RejectPage"
 // import ResultsPage from '../pages/ResultsPage';
 
 function AppRoutes() {
@@ -33,6 +36,9 @@ function AppRoutes() {
 
         {/* 결과 */}
         {/* <Route path="/results" element={<ResultsPage />} /> */}
+        <Route path="/results/:restaurantId" element={<ResultsSurveyPage />} />
+        <Route path="/results/:restaurantId/confirm" element={<ConfirmPage />} />
+        <Route path="/results/:restaurantId/reject" element={<RejectPage />} />
 
         {/* 검색 */}
         <Route path="/search" element={<SearchPage />} />

@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/derere.svg";
 import searchGray from "../../assets/search.svg";
 import searchOrange from "../../assets/search_orange.svg";
 
@@ -23,6 +23,7 @@ export default function NavBar() {
           <StyledLink to="/vote">투표 vote</StyledLink>
         )}
         <StyledLink to="/results">결과 result</StyledLink>
+        {!isMerchant && (
         <SearchLink to="/search">
           {({ isActive }) => (
             <SearchButton $active={isActive}>
@@ -30,6 +31,7 @@ export default function NavBar() {
             </SearchButton>
           )}
         </SearchLink>
+        )}
       </Menu>
       <SearchForm>
         <LoginButton type="submit">login</LoginButton>

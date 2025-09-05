@@ -47,6 +47,7 @@ const HomePage = () => {
       id: 1,
       img: rank1,
       name: "Rosteak",
+      // flag: "/assets/usa.png",
       description: "스테이크 전문점 입니다.",
       detail:
         "매일 엄선된 패티와 풍부한 재료를 사용하여, 누구나 쉽게 즐길 수 있으면서도, 매 순간 정성과 즐거움을 느낄 수 있도록 세심하게 준비했습니다.",
@@ -56,6 +57,7 @@ const HomePage = () => {
       id: 2,
       img: rank2,
       name: "행복한 돼지",
+      // flag: "/assets/kor.png",
       description: "숯불향 돼지고기 전문점 입니다.",
       detail:
         "정성껏 구워낸 신선한 삼겹살과 함께하는 즐거운 식사 시간. 두툼한 고기와 풍부한 육즙, 그리고 직접 담근 양념까지 더해져 매 순간 만족스러운 한 끼를 제공합니다.",
@@ -65,6 +67,7 @@ const HomePage = () => {
       id: 3,
       img: rank3,
       name: "할머니 분식집",
+      // flag: "/assets/kor.png",
       description: "할머니의 손맛으로 만든 분식 전문점 입니다.",
       detail:
         "따끈한 떡볶이, 바삭한 튀김, 달콤한 순대까지. 정성껏 만든 소스와 신선한 재료로 매 순간 만족스러운 한 끼를 제공합니다. 친구와 가족, 언제나 함께 즐길 수 있는 따뜻한 분식 공간입니다.",
@@ -74,6 +77,7 @@ const HomePage = () => {
       id: 4,
       img: rank4,
       name: "Ross Pasta",
+      // flag: "/assets/italy.png",
       description: "이탈리아 요리 전문점 입니다.",
       detail:
         "깊은 풍미의 소스와 알맞게 삶아낸 면이 어우러져 특별한 한 끼를 제공합니다. 친구, 가족과 함께 편안한 분위기 속에서 풍성한 맛을 경험해 보세요.",
@@ -184,6 +188,7 @@ const HomePage = () => {
                 <RestaurantImage src={res.img} alt={res.name} />
                 <RestaurantInfo>
                   <RestaurantName>{res.name}</RestaurantName>
+                  {/* <FlagIcon src={res.flag} alt={`${res.name}`} /> */}
                   <RestaurantDesc>{res.description}</RestaurantDesc>
                   <RestaurantDetail>{res.detail}</RestaurantDetail>
                 </RestaurantInfo>
@@ -325,9 +330,10 @@ const SectionSubtitle = styled.p`
 
 const ImageGrid = styled.div`
   display: flex;
+  justify-content: space-between; /* 아이템 간격 일정하게 */
+  align-items: center;
   gap: 10px;
-  overflow-x: auto; /* 화면 넘치면 스크롤 */
-  padding: 10px 10px;
+  width: 100%;
 `;
 
 const CategoryWrapper = styled.div`
@@ -337,13 +343,14 @@ const CategoryWrapper = styled.div`
 `;
 
 const ImageCard = styled.div`
+  flex: 1; /* 화면 크기에 맞춰 자동으로 늘어나거나 줄어듦 */
   cursor: pointer;
   overflow: hidden;
   border-radius: 50%;
   transition: transform 0.3s, filter 0.3s, background-color 0.1s;
 
-  width: 125px;
-  height: 125px;
+  width: 140px;
+  height: 140px;
   background-color: rgba(255, 93, 23, 0.73);
 
   img {
@@ -471,6 +478,12 @@ const RestaurantInfo = styled.div`
 const RestaurantName = styled.span`
   font-family: "Poppins Bold";
   font-size: 28px;
+`;
+
+const FlagIcon = styled.img`
+  width: 40px;
+  height: auto;
+  margin-left: 7px;
 `;
 
 const RestaurantDesc = styled.span`

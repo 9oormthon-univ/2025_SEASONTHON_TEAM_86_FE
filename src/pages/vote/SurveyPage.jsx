@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import SurveyStepBar from "../../components/vote/StepBar";
 import SurveyQuestion from "../../components/vote/SurveyQuestion";
 import NavBar from "../../components/common/NavBar";
+import voteIcon from "../../assets/vote_gray.svg";
 
 const PageWrapper = styled.div`
   display: flex;
@@ -66,16 +67,17 @@ const HeaderText = styled.div`
 `;
 
 const Container = styled.div`
-  max-width: 650px;
+  max-width: 600px;
   width: 100%;
   background: #F2EDE4;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  margin-bottom: 40px;
 `;
 
 const StepBarWrapper = styled.div`
-  width: 100%;
+  width: 116%;
   margin-bottom: 24px;
 `;
 
@@ -84,6 +86,9 @@ const Footer = styled.div`
   text-align: center;
   font-size: 13px;
   color: #777;
+  display: flex;
+  flex-direction: column;   /* 텍스트와 버튼을 세로로 */
+  align-items: center;      /* 가운데 정렬 */
 `;
 
 const SubmitButton = styled.button`
@@ -96,9 +101,20 @@ const SubmitButton = styled.button`
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+
+  display: flex;              /* 가로 배치 */
+  align-items: center;        /* 세로 가운데 정렬 */
+  justify-content: center;    /* 전체 중앙 (선택) */
+
   &:hover {
     background: #FF6B00;
     color: #fff;
+  }
+
+  img{
+    width: 23px;
+    height:23px;
+    margin-right: 8px;
   }
 `;
 
@@ -107,6 +123,7 @@ export default function SurveyPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { categoryId } = useParams();
 
   const questions = [
     { key: "q1", text: "1. 주간 이용 횟수를 선택해 주세요.", options: ["0~1회", "2~3회", "4~5회", "6회 이상"] },
@@ -123,7 +140,7 @@ export default function SurveyPage() {
 
   const handleSubmit = () => {
     console.log("저장된 설문 응답:", answers);
-    navigate("/vote/complete", { state: { id, answers } });
+    navigate(`/vote/${categoryId}/${id}/complete`, { state: { id, answers } });
   };
 
   return (
@@ -168,7 +185,7 @@ export default function SurveyPage() {
             <br />
             버튼을 누르면 자동으로 투표가 됩니다.
             <br />
-            <SubmitButton onClick={handleSubmit}>투표하기</SubmitButton>
+            <SubmitButton onClick={handleSubmit}><img src={voteIcon}/>투표하기</SubmitButton>
           </Footer>
         </Container>
       </PageWrapper>

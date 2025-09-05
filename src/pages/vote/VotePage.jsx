@@ -25,7 +25,7 @@ export default function VotePage() {
   };
 
   const handleItemClick = (id) => {
-    navigate(`/vote/${id}`);
+    navigate(`/vote/${categoryId}/${id}`);
   };
   console.log("render categoryId:", categoryId);
 

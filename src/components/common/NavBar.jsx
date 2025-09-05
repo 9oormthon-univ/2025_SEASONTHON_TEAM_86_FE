@@ -7,6 +7,9 @@ import searchOrange from "../../assets/search_orange.svg";
 export default function NavBar() {
   const navigate = useNavigate();
 
+    // 나중에는 API에서 받아올 값 (지금은 임시로 설정)
+    const isMerchant = true; // true면 가맹점주, false면 일반 사용자
+
   return (
     <Bar>
       <Logo>
@@ -14,7 +17,11 @@ export default function NavBar() {
       </Logo>
       <Menu>
         <StyledLink to="/">홈 home</StyledLink>
-        <StyledLink to="/vote">투표 vote</StyledLink>
+        {isMerchant ? (
+          <StyledLink to="/register">등록 register</StyledLink>
+        ) : (
+          <StyledLink to="/vote">투표 vote</StyledLink>
+        )}
         <StyledLink to="/results">결과 result</StyledLink>
         <SearchLink to="/search">
           {({ isActive }) => (

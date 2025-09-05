@@ -28,13 +28,13 @@ export default function CategoryList({ selected, onSelect }) {
         {categories.map((cat) => (
           <CategoryItem
             key={cat.id}
-            $active={selected === cat.id}
+            $active={Number(selected) === cat.id}
             onClick={() => onSelect(cat.id)}
           >
-            <ImageWrapper $active={selected === cat.id}>
+            <ImageWrapper $active={Number(selected) === cat.id}>
               <img src={cat.img} alt={cat.name} />
             </ImageWrapper>
-            <Label $active={selected === cat.id}>{cat.name}</Label>
+            <Label $active={Number(selected) === cat.id}>{cat.name}</Label>
           </CategoryItem>
         ))}
       </Wrapper>

@@ -1,8 +1,9 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import voteIcon from "../../assets/vote.svg";
-import voteOrangeIcon from "../../assets/vote_orange.svg";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import voteIcon from '../../assets/vote.svg';
+import voteOrangeIcon from '../../assets/vote_orange.svg';
+import heartIcon from '../../assets/heart.svg';
 
 const Container = styled.div`
   padding: 20px 0;
@@ -10,11 +11,11 @@ const Container = styled.div`
 `;
 
 const VoteItem = styled.div`
-  background-color: #d5f08a;
+  background-color: #D5F08A;
   margin-bottom: 40px;
   padding: 15px;
   border-radius: 18px;
-  display: flex; /* 가로 배치 */
+  display: flex;
   align-items: stretch;
   justify-content: space-between;
   gap: 15px;
@@ -24,7 +25,6 @@ const VoteItem = styled.div`
   margin-left: 20px;
   cursor: pointer;
 
-  /* hover 시 전체 흐려짐 */
   &:hover {
     opacity: 0.8;
   }
@@ -38,7 +38,7 @@ const FoodImage = styled.img`
 `;
 
 const Info = styled.div`
-  flex: 1; /* 가운데 영역 넓게 차지 */
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -50,7 +50,7 @@ const Title = styled.h3`
   margin: 0;
   font-size: 20px;
   font-weight: bold;
-  color: #ff6b00;
+  color: #FF6B00;
 `;
 
 const Description = styled.p`
@@ -67,19 +67,19 @@ const Side = styled.div`
 `;
 
 const Votes = styled.span`
-  flex: 1; /* 남는 공간 차지 */
-  display: flex; /* 안쪽에서도 flex */
-  align-items: center; /* 세로 중앙 */
-  justify-content: center; /* 가로 중앙 */
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 15px;
   font-weight: 600;
   color: #444;
 `;
 
 const VoteButton = styled.button`
-  background: #d5f08a;
-  color: #ff5d17;
-  border: 2px solid #ff5d17;
+  background: #D5F08A;
+  color: #FF5D17;
+  border: 2px solid #FF5D17;
   border-radius: 17px;
   padding: 5px 18px;
   cursor: pointer;
@@ -94,8 +94,8 @@ const VoteButton = styled.button`
 
   &:hover {
     opacity: 0.9;
-    background: #ff5d17;
-    color: #d5f08a;
+    background: #FF5D17;
+    color: #D5F08A;
   }
 
   img {
@@ -121,32 +121,48 @@ const VoteButton = styled.button`
   }
 `;
 
-export default function VoteList({ sortOrder, onItemClick, category }) {
-  const [hover, setHover] = useState(false);
+const LikeInfo = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  font-weight: 600;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+export default function VoteList({ sortOrder, sortField = "votes", onItemClick, category }) {
   const mockData = [
     {
       id: 1,
-      title: "Surfer Pizza 4계절 피자",
-      desc: "시원한 바다향 가득한 4계절 피자!",
+      title: 'Surfer Pizza 4계절 피자',
+      desc: '시원한 바다향 가득한 4계절 피자!',
       votes: 231,
-      img: "https://via.placeholder.com/100",
-      categoryId: 4, // 양식
+      likes: 500,
+      img: 'https://via.placeholder.com/100',
+      categoryId: 4,
     },
     {
       id: 2,
-      title: "Fever Pizza 핫치킨 피자",
-      desc: "매콤한 핫치킨 피자!",
+      title: 'Fever Pizza 핫치킨 피자',
+      desc: '매콤한 핫치킨 피자!',
       votes: 158,
-      img: "https://via.placeholder.com/100",
-      categoryId: 4, // 양식
+      likes: 320,
+      img: 'https://via.placeholder.com/100',
+      categoryId: 4,
     },
     {
       id: 3,
-      title: "Univo Sushi 모듬 초밥",
-      desc: "신선한 초밥 세트!",
+      title: 'Univo Sushi 모듬 초밥',
+      desc: '신선한 초밥 세트!',
       votes: 102,
-      img: "https://via.placeholder.com/100",
-      categoryId: 2, // 일식
+      likes: 210,
+      img: 'https://via.placeholder.com/100',
+      categoryId: 2,
     },
   ];
 
@@ -155,8 +171,8 @@ export default function VoteList({ sortOrder, onItemClick, category }) {
 
   // 정렬
   const sortedData = [...filteredData].sort((a, b) => {
-    if (sortOrder === "asc") return a.votes - b.votes;
-    return b.votes - a.votes;
+    if (sortOrder === 'asc') return a[sortField] - b[sortField];
+    return b[sortField] - a[sortField];
   });
 
   return (
@@ -169,19 +185,18 @@ export default function VoteList({ sortOrder, onItemClick, category }) {
             <Description>{item.desc}</Description>
           </Info>
           <Side>
-            <Votes>투표 수: {item.votes}</Votes>
+            {sortField === "votes" ? (
+                <Votes>투표 수: {item.votes}</Votes>
+            ) : (
+                <LikeInfo>
+                <img src={heartIcon} alt="heart" />
+                {item.likes}
+                </LikeInfo>
+            )}
             <VoteButton>
-              <img
-                src={voteOrangeIcon}
-                alt="vote icon"
-                className="default-icon"
-              />
-              <img
-                src={voteIcon}
-                alt="vote icon hover"
-                className="hover-icon"
-              />
-              투표하기
+                <img src={voteOrangeIcon} alt="vote icon" className="default-icon" />
+                <img src={voteIcon} alt="vote icon hover" className="hover-icon" />
+                투표하기
             </VoteButton>
           </Side>
         </VoteItem>

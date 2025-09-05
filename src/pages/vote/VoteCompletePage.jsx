@@ -1,11 +1,13 @@
 import React, {useEffect} from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../../components/common/NavBar";
 import arrow from "../../assets/arrow.svg";
 
 export default function VoteCompletePage() {
   const navigate = useNavigate();
+  const { categoryId } = useParams();
+  const {id} = useParams();
 
     // 페이지 들어올 때 스크롤 막고, 나갈 때 원래대로
     useEffect(() => {
@@ -27,7 +29,7 @@ export default function VoteCompletePage() {
           <span> 완료</span> 되었어요!
         </Title>
         <Subtitle>결과가 발표된 후 확인해 주세요.</Subtitle>
-        <BackButton onClick={() => navigate('/vote/${id}')}>
+        <BackButton onClick={() => navigate(`/vote/${categoryId}/${id}`)}>
           <img src={arrow} alt="뒤로가기" />
         </BackButton>
       </Content>
@@ -39,7 +41,7 @@ const Wrapper = styled.div`
   min-height: 100vh;
   width: 100vw;   /* ← 100vw 대신 */
   margin: 0;
-  margin-top: 50px;
+  margin-top: 20px;
   padding: 0;
   display: flex;
   flex-direction: column;

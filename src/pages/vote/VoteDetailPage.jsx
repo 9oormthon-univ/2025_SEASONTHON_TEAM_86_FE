@@ -104,6 +104,7 @@ const Divider = styled.div`
 `;
 
 export default function SearchPage() {
+    const { categoryId } = useParams();
     // 메뉴 데이터 준비
     const { id } = useParams(); 
     const navigate = useNavigate();
@@ -177,7 +178,7 @@ export default function SearchPage() {
                 <br />
                 정보를 확인하세요!
                 </Title>
-                <SubText onClick={() => navigate('/vote')}>
+                <SubText onClick={() => navigate(`/vote/${categoryId}`)}>
                 <img src={arrow} alt="뒤로가기" style={{ width: '19px', height: '19px' }} />
                 다시 선택하기
                 </SubText>
@@ -189,7 +190,7 @@ export default function SearchPage() {
             description="지글지글 철판 위에서 갓 부쳐내는 오코노미야키의 풍미를 즐겨보세요. 신선한 채소와 해물, 고기, 치즈까지 다양한 재료를 듬뿍 넣어 겉은 바삭하고 속은 촉촉하게 완성했습니다. 정통 일본 가정식의 따뜻한 맛을 그대로 재현해 남녀노소 누구나 만족할 수 있는 한 끼를 제공합니다. 취향에 따라 소스와 토핑을 고르는 재미까지 더해져, 언제 찾아와도 새로운 맛을 경험할 수 있는 특별한 오코노미야키 전문점입니다."
             votes={37}
             onVote={() => console.log("투표하기")}
-            onSurvey={() => navigate(`/vote/${id}/survey`)}
+            onSurvey={() => navigate(`/vote/${categoryId}/${id}/survey`)}
           />
         </LeftSection>
 

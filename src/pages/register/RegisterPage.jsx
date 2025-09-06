@@ -25,7 +25,7 @@ const HeaderText = styled.div`
     font-weight: 500;
 
     .highlight {
-      color: #FF6B00;
+      color: #ff6b00;
       font-weight: 700;
     }
 
@@ -36,32 +36,31 @@ const HeaderText = styled.div`
 `;
 
 const HighlightWord = styled.span`
-  color: #FF6B00;
+  color: #ff6b00;
   font-weight: 700;
-  position: relative;   /* 점 위치 기준 */
+  position: relative; /* 점 위치 기준 */
   display: inline-block;
 `;
 
 const DotWrapper = styled.div`
   position: absolute;
-  top: -22px;     /* 단어 위쪽 */
-  left: 50%;      /* 단어 중앙 */
+  top: -22px; /* 단어 위쪽 */
+  left: 50%; /* 단어 중앙 */
   transform: translateX(-50%);
   display: flex;
-  gap: 12px;      /* 점 사이 간격 */
+  gap: 12px; /* 점 사이 간격 */
 `;
 
 const Dot = styled.span`
   font-size: 35px;
-  color: #FF6B00;
+  color: #ff6b00;
   line-height: 1;
 `;
-
 
 const Container = styled.div`
   max-width: 600px;
   width: 100%;
-  background: #F2EDE4;
+  background: #f2ede4;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -93,8 +92,8 @@ const Input = styled.input`
   border-radius: 18px;
   border: none;
   width: 80%;
-  background: #FF5D17;
-  color: #FFF;
+  background: #ff5d17;
+  color: #fff;
   font-size: 16px;
   font-weight: 550;
 
@@ -129,7 +128,7 @@ const OptionButton = styled.button`
   font-size: 16px;
 
   &:hover {
-    background: #FF6B00;
+    background: #ff6b00;
     color: #fff;
   }
 `;
@@ -140,14 +139,14 @@ const Footer = styled.div`
   font-size: 14px;
   color: #777;
   display: flex;
-  flex-direction: column;   /* 텍스트와 버튼을 세로로 */
-  align-items: center;      /* 가운데 정렬 */
+  flex-direction: column; /* 텍스트와 버튼을 세로로 */
+  align-items: center; /* 가운데 정렬 */
 `;
 
 const SubmitButton = styled.button`
   margin-top: 20px;
-  background: #E7DCCB;
-  color: #8A8A8A;
+  background: #e7dccb;
+  color: #8a8a8a;
   border: none;
   border-radius: 20px;
   padding: 8px 20px;
@@ -155,18 +154,18 @@ const SubmitButton = styled.button`
   font-weight: 600;
   cursor: pointer;
 
-  display: flex;              /* 가로 배치 */
-  align-items: center;        /* 세로 가운데 정렬 */
-  justify-content: center;    /* 전체 중앙 (선택) */
+  display: flex; /* 가로 배치 */
+  align-items: center; /* 세로 가운데 정렬 */
+  justify-content: center; /* 전체 중앙 (선택) */
 
   &:hover {
-    background: #FF6B00;
+    background: #ff6b00;
     color: #fff;
   }
 
-  img{
+  img {
     width: 18px;
-    height:18px;
+    height: 18px;
     margin-right: 8px;
   }
 `;
@@ -240,11 +239,28 @@ export default function SurveyPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const categories = ["한식", "중식", "일식", "양식", "분식", "카페·디저트", "패스트푸드", "기타"];
+  const categories = [
+    "한식",
+    "중식",
+    "일식",
+    "양식",
+    "분식",
+    "카페·디저트",
+    "패스트푸드",
+    "기타",
+  ];
 
   const handleSubmit = () => {
-    console.log("등록 정보:", { storeName, phone, selectedCategory, startTime, endTime });
-    navigate("/register/complete", { state: { id, storeName, phone, selectedCategory, startTime, endTime } });
+    console.log("등록 정보:", {
+      storeName,
+      phone,
+      selectedCategory,
+      startTime,
+      endTime,
+    });
+    navigate("/register/complete", {
+      state: { id, storeName, phone, selectedCategory, startTime, endTime },
+    });
   };
 
   // 입력 상태에 따라 스텝 자동 갱신
@@ -262,13 +278,13 @@ export default function SurveyPage() {
       <PageWrapper>
         <HeaderText>
           <p>
-          <HighlightWord>
-            가게
-            <DotWrapper>
+            <HighlightWord>
+              가게
+              <DotWrapper>
                 <Dot>•</Dot>
                 <Dot>•</Dot>
-            </DotWrapper>
-          </HighlightWord>
+              </DotWrapper>
+            </HighlightWord>
             <span className="highlight">정보</span>를 입력하고,
             <br />
             <span className="bold">동네 주민과 만나는 준비</span>를 시작하세요.
@@ -307,7 +323,9 @@ export default function SurveyPage() {
             <Label>영업시간</Label>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <DropdownWrapper>
-                <Selected onClick={() => setIsOpen(isOpen === "start" ? null : "start")}>
+                <Selected
+                  onClick={() => setIsOpen(isOpen === "start" ? null : "start")}
+                >
                   {startTime || "시작 시간 "}
                 </Selected>
                 {isOpen === "start" && (
@@ -330,7 +348,9 @@ export default function SurveyPage() {
               <span style={{ fontSize: "18px", fontWeight: "600" }}>~</span>
 
               <DropdownWrapper>
-                <Selected onClick={() => setIsOpen(isOpen === "end" ? null : "end")}>
+                <Selected
+                  onClick={() => setIsOpen(isOpen === "end" ? null : "end")}
+                >
                   {endTime || "종료 시간 "}
                 </Selected>
                 {isOpen === "end" && (
@@ -379,7 +399,10 @@ export default function SurveyPage() {
             <br />
             버튼을 누르면 자동으로 등록이 됩니다.
             <br />
-            <SubmitButton onClick={handleSubmit}><img src={registerIcon} alt="등록 아이콘" />등록하기</SubmitButton>
+            <SubmitButton onClick={handleSubmit}>
+              <img src={registerIcon} alt="등록 아이콘" />
+              등록하기
+            </SubmitButton>
           </Footer>
         </Container>
       </PageWrapper>

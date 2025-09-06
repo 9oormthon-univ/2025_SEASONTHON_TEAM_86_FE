@@ -262,7 +262,7 @@ export default function SurveyResultPage() {
 
     // 수락 버튼 핸들러
     const handleAccept = () => {
-        navigate(`/results/${restaurantId}/confirm`, {
+        navigate(`/resultsowner/${restaurantId}/confirm`, {
           state: { restaurant: restaurantData }
         });
       };
@@ -270,7 +270,7 @@ export default function SurveyResultPage() {
       // 거절 버튼 핸들러 
       const handleReject = () => {
         console.log("거절하기 클릭!");
-        navigate(`/results/${restaurantId}/reject`, {
+        navigate(`/resultsowner/${restaurantId}/reject`, {
           state: { restaurant: restaurantData }
         }); 
       };

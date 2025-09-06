@@ -54,7 +54,7 @@ const ResultsPage = () => {
               {topRestaurants.map((restaurant, idx) => (
                 <RestaurantCard
                   key={restaurant.restaurantId}
-                  onClick={() => navigate(`/ownerresults/${restaurant.restaurantId}`)} // 클릭 이동
+                  onClick={() => navigate(`/resultsowner/${restaurant.restaurantId}`)} // 클릭 이동
                 >
                   <CardImage
                     src={restaurant.restaurantImageUrl}

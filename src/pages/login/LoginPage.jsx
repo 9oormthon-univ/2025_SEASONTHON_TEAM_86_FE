@@ -1,9 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import kakaoLogo from '../../assets/kakao.svg'; // 카카오 로고 이미지 
-import logoIcon from '../../assets/logo_orange.svg'
+import styled from "styled-components";
+import kakaoLogo from "../../assets/kakao.svg";
+import logoIcon from "../../assets/logo_orange.svg";
 
 export default function LoginPage() {
+  const KAKAO_AUTH_URL = import.meta.env.VITE_KAKAO_AUTH_URL;
+
+  const handleKakaoLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
+  };
+
   return (
     <Wrapper>
       <LoginBox>
@@ -11,15 +16,15 @@ export default function LoginPage() {
           안녕하세요. <br />
           <Inline>
             <LogoImg src={logoIcon} alt="Derere logo" />
-            <span className="bold">입니다!</span>
+            <BoldText>입니다!</BoldText>
           </Inline>
         </Greeting>
         <Description>
           카카오톡 계정으로 빠르고 쉽게 로그인할 수 있습니다.
         </Description>
         <Tag>1초 간편 회원가입</Tag>
-        <KakaoButton>
-          <img src={kakaoLogo} alt="kakao" />
+        <KakaoButton onClick={handleKakaoLogin}>
+          <KakaoImg src={kakaoLogo} alt="kakao" />
           카카오톡 간편 로그인
         </KakaoButton>
       </LoginBox>
@@ -32,19 +37,15 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #f5f5f5;
-  position: relative;
+  background-color: #f5f5f5;
 `;
 
 const LoginBox = styled.div`
-  background: #fff;
-  padding: 30px 40px;
-  margin: 30px;
-  border-radius: 16px;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  background-color: #fff;
+  padding: 40px 45px;
+  border-radius: 29px;
+  box-shadow: 0 0 9px rgba(0, 0, 0, 0.25);
   text-align: center;
-  position: relative;
-  z-index: 2;
 `;
 
 const Greeting = styled.h1`
@@ -52,25 +53,22 @@ const Greeting = styled.h1`
   font-size: 28px;
   font-weight: 500;
   margin: 0;
-  line-height: 1.5;
   text-align: left;
-
-  .bold {
-    font-weight: 700;
-  }
 `;
 
-const LogoImg = styled.img`
-  height: 26px;   /* 텍스트 높이에 맞춤 */
+const BoldText = styled.span`
+  font-weight: 700;
 `;
 
 const Inline = styled.span`
   display: inline-flex;
-  align-items: center; /* 세로 중앙 정렬 */
-  gap: 6px;           /* 로고와 텍스트 간격 */
+  align-items: center;
+  gap: 6px;
 `;
 
-
+const LogoImg = styled.img`
+  height: 26px;
+`;
 
 const Description = styled.p`
   margin: 12px 0 40px;
@@ -80,7 +78,7 @@ const Description = styled.p`
 
 const Tag = styled.div`
   display: inline-block;
-  background: #064420;
+  background-color: #064420;
   color: #fff;
   font-size: 11px;
   padding: 4px 10px;
@@ -89,7 +87,7 @@ const Tag = styled.div`
 `;
 
 const KakaoButton = styled.button`
-  background: #fee500;
+  background-color: #fee500;
   border: none;
   border-radius: 12px;
   width: 100%;
@@ -103,12 +101,12 @@ const KakaoButton = styled.button`
   gap: 6px;
   cursor: pointer;
 
-  img {
-    width: 18px;
-    height: 18px;
-  }
-
   &:hover {
-    background: #fdd835;
+    background-color: #fdd835;
   }
+`;
+
+const KakaoImg = styled.img`
+  width: 18px;
+  height: 18px;
 `;

@@ -12,20 +12,19 @@ import SearchResultPage from "../pages/search/SearchResultPage";
 import RegisterPage from "../pages/register/RegisterPage";
 import RegisterCompletePage from "../pages/register/RegisterCompletePage";
 import RegisterCheckPage from "../pages/register/RegisterCheckPage";
-import ResultsSurveyPage from "../pages/ResultsSurveyPage"
-import ConfirmPage from "../pages/ConfirmPage"
-import RejectPage from "../pages/RejectPage"
-import LoginPage from '../pages/login/LoginPage';
-import SignUpPage from '../pages/login/SignUpPage';
-// import ResultsPage from '../pages/ResultsPage';
+import ResultsSurveyPage from "../pages/ResultsSurveyPage";
+import ConfirmPage from "../pages/ConfirmPage";
+import RejectPage from "../pages/RejectPage";
+import LoginPage from "../pages/login/LoginPage";
+import SignUpPage from "../pages/login/SignUpPage";
 
 function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
         {/* 홈 */}
-        <Route path="/" element={<OwnerHomePage />} />
-        <Route path="/homepage" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/ownerhomepage" element={<OwnerHomePage />} />
 
         {/* 투표 */}
         <Route path="/vote" element={<VotePage />} />
@@ -43,9 +42,12 @@ function AppRoutes() {
         <Route path="/register/check" element={<RegisterCheckPage />} />
 
         {/* 결과 */}
-        <Route path="/results" element={<ResultsPage />} /> 
+        <Route path="/results" element={<ResultsPage />} />
         <Route path="/results/:restaurantId" element={<ResultsSurveyPage />} />
-        <Route path="/results/:restaurantId/confirm" element={<ConfirmPage />} />
+        <Route
+          path="/results/:restaurantId/confirm"
+          element={<ConfirmPage />}
+        />
         <Route path="/results/:restaurantId/reject" element={<RejectPage />} />
 
         {/* 검색 */}
@@ -53,8 +55,8 @@ function AppRoutes() {
         <Route path="/search/:keyword" element={<SearchResultPage />} />
 
         {/* 로그인 */}
-        <Route path='/login' element={<LoginPage/>}/>
-        <Route path='/login/signup' element={<SignUpPage/>}/>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </BrowserRouter>
   );

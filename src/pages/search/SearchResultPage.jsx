@@ -9,10 +9,10 @@ import SortButtonsForSearch from '../../components/search/SortButtonsForSearch';
 export default function SearchResultPage() {
   const { keyword } = useParams(); // 예: "/search/스시"
   const navigate = useNavigate();
+  const category = 4;
 
   // 정렬 기준 상태 ("votes" | "likes")
   const [sortField, setSortField] = useState("votes");
-  const category = 4;
 
   return (
     <PageWrapper>

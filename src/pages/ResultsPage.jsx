@@ -1,84 +1,39 @@
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import NavBar from "../components/common/NavBar.jsx";
-import resultrank1 from "../assets/resultrank1.png";
-import resultrank2 from "../assets/resultrank2.png";
-import resultrank3 from "../assets/resultrank3.png";
-import resultrank4 from "../assets/fourth.png";
-import resultrank5 from "../assets/fifth.png";
-import resultrank6 from "../assets/sixth.png";
-import resultrank7 from "../assets/seventh.png";
 import rank1 from "../assets/first.svg";
 import rank2 from "../assets/second.svg";
 import rank3 from "../assets/third.svg";
 import vote from "../assets/vote.svg";
 import vote_gray from "../assets/vote_gray.svg";
 import heart from "../assets/heart.svg";
+import {
+  fetchTop3Restaurants,
+  fetchAllRestaurants,
+} from "../api/restaurantApi.js";
 
 const ResultsPage = () => {
-  const topRestaurants = [
-    {
-      id: 1,
-      name: "동양 사시미&초밥",
-      description: "사시미와 초밥 전문점",
-      img: resultrank1,
-      rankIcon: rank1,
-      votes: 230,
-      likes: 93,
-    },
-    {
-      id: 2,
-      name: "로스테이크 Rosteak",
-      description: "스테이크 전문점",
-      img: resultrank2,
-      rankIcon: rank2,
-      votes: 132,
-      likes: 121,
-    },
-    {
-      id: 3,
-      name: "유어도넛 Your Donuts",
-      description: "수제 도넛 전문점",
-      img: resultrank3,
-      rankIcon: rank3,
-      votes: 97,
-      likes: 91,
-    },
-  ];
+  const [topRestaurants, setTopRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
 
-  const restaurants = [
-    {
-      id: 4,
-      name: "행복한 돼지",
-      description: "숯불향 돼지고기 전문점 입니다.",
-      img: resultrank4,
-      votes: 76,
-      likes: 98,
-    },
-    {
-      id: 5,
-      name: "할머니 분식집",
-      description: "손맛 일품 분식 전문점 입니다.",
-      img: resultrank5,
-      votes: 74,
-      likes: 95,
-    },
-    {
-      id: 6,
-      name: "깜언 비엣남",
-      description: "베트남 음식 전문점 입니다.",
-      img: resultrank6,
-      votes: 69,
-      likes: 78,
-    },
-    {
-      id: 7,
-      name: "오이시이 우동",
-      description: "일본 우동 전문점 입니다.",
-      img: resultrank7,
-      votes: 61,
-      likes: 71,
-    },
-  ];
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const top3 = await fetchTop3Restaurants();
+        const all = await fetchAllRestaurants();
+
+        console.log("✅ Top3 API 응답:", top3);
+        console.log("✅ All API 응답:", all);
+
+        // API는 1~N 순서로 반환되므로 그대로 사용
+        setTopRestaurants(top3);
+        setRestaurants(all.slice(3, 7)); // 4위~7위만 잘라서 표시
+      } catch (err) {
+        console.error("결과 불러오기 실패:", err);
+      }
+    }
+    loadData();
+  }, []);
 
   return (
     <>
@@ -96,23 +51,29 @@ const ResultsPage = () => {
 
         {/* Top 3 */}
         <RankingList>
-          {topRestaurants.map((restaurant) => (
-            <RestaurantCard key={restaurant.id}>
-              <CardImage src={restaurant.img} alt={restaurant.name} />
-              <RankIcon src={restaurant.rankIcon} alt={`${restaurant.id}위`} />
+          {topRestaurants.map((restaurant, idx) => (
+            <RestaurantCard key={restaurant.restaurantId}>
+              <CardImage
+                src={restaurant.restaurantImageUrl}
+                alt={restaurant.restaurantName}
+              />
+              <RankIcon
+                src={idx === 0 ? rank1 : idx === 1 ? rank2 : rank3}
+                alt={`${idx + 1}위`}
+              />
               <VoteBadge>
                 <VoteIcon src={vote} alt="vote" />
-                {restaurant.votes}표
+                {restaurant.restaurantVote}표
               </VoteBadge>
               <LikeBox>
                 <HeartIcon src={heart} alt="heart" />
-                {restaurant.likes}
+                {restaurant.restaurantLike}
               </LikeBox>
 
               {/* 하단 이름 & 설명 오버레이 */}
               <InfoOverlay>
-                <RestaurantName>{restaurant.name}</RestaurantName>
-                <RestaurantDesc>{restaurant.description}</RestaurantDesc>
+                <RestaurantName>{restaurant.restaurantName}</RestaurantName>
+                <RestaurantDesc>{restaurant.restaurantInfo}</RestaurantDesc>
               </InfoOverlay>
             </RestaurantCard>
           ))}
@@ -120,24 +81,29 @@ const ResultsPage = () => {
 
         {/* 4위~7위 */}
         <LowerRankingList>
-          {restaurants.map((restaurant, index) => (
-            <RestaurantRow key={restaurant.id}>
-              <RankNumber>{restaurant.id}</RankNumber>
+          {restaurants.map((restaurant, idx) => (
+            <RestaurantRow key={restaurant.restaurantId}>
+              <RankNumber>{idx + 4}</RankNumber>
               <InfoBox>
-                <RestaurantNameSmall>{restaurant.name}</RestaurantNameSmall>
+                <RestaurantNameSmall>
+                  {restaurant.restaurantName}
+                </RestaurantNameSmall>
                 <RestaurantDescSmall>
-                  {restaurant.description}
+                  {restaurant.restaurantInfo}
                 </RestaurantDescSmall>
               </InfoBox>
               <LikeBoxRow>
                 <HeartIcon src={heart} alt="heart" />
-                {restaurant.likes}
+                {restaurant.restaurantLike}
               </LikeBoxRow>
               <PhotoBox>
-                <CardImageRow src={restaurant.img} alt={restaurant.name} />
+                <CardImageRow
+                  src={restaurant.restaurantImageUrl}
+                  alt={restaurant.restaurantName}
+                />
                 <VoteBadgeRow>
                   <VoteIcon src={vote_gray} alt="vote" />
-                  {restaurant.votes}표
+                  {restaurant.restaurantVote}표
                 </VoteBadgeRow>
               </PhotoBox>
             </RestaurantRow>
@@ -149,6 +115,8 @@ const ResultsPage = () => {
 };
 
 export default ResultsPage;
+
+
 
 const Container = styled.div`
   min-height: 100vh;
@@ -202,6 +170,9 @@ const RestaurantCard = styled.div`
 const CardImage = styled.img`
   width: 100%;
   display: block;
+  max-width: 864px;
+  max-height: 240px;
+  border-radius: 20px;
 `;
 
 const InfoOverlay = styled.div`
@@ -337,15 +308,16 @@ const LikeBoxRow = styled.div`
 
 const PhotoBox = styled.div`
   position: relative;
-  width: 205px;
-  height: auto;
+  width: 200px;      /* 가로 크기 줄임 (205 → 150) */
+  height: 100px;     /* 세로 크기도 제한 */
   flex-shrink: 0;
 `;
 
 const CardImageRow = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
+  border-radius: 8px;
 `;
 
 const VoteBadgeRow = styled.div`

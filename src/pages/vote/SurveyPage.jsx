@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import SurveyStepBar from "../../components/vote/StepBar";
 import SurveyQuestion from "../../components/vote/SurveyQuestion";
 import NavBar from "../../components/common/NavBar";
 import voteIcon from "../../assets/vote_gray.svg";
+import { fetchSurveys, fetchSurveyOptions, saveSurveyAnswers } from "../../api/surveyApi";
 
 const PageWrapper = styled.div`
   display: flex;
@@ -118,77 +119,149 @@ const SubmitButton = styled.button`
   }
 `;
 
+const FullPageSpinner = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3); /* 살짝 하얀 반투명 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+
+  &::after {
+    content: "";
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #ff6b00;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
+
+
 export default function SurveyPage() {
+  const [questions, setQuestions] = useState([]); // 질문 + 옵션 저장
   const [answers, setAnswers] = useState({});
   const [currentStep, setCurrentStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const { categoryId } = useParams();
 
-  const questions = [
-    { key: "q1", text: "1. 주간 이용 횟수를 선택해 주세요.", options: ["0~1회", "2~3회", "4~5회", "6회 이상"] },
-    { key: "q2", text: "2. 선호하는 음식 종류는 무엇인가요?", options: ["한식", "중식", "일식", "양식", "분식", "카페·디저트", "패스트푸드"] },
-    { key: "q3", text: "3. 방문하실 인원을 선택해 주세요.", options: ["혼자", "2~3인", "4인 이상", "10인 이상"] },
-    { key: "q4", text: "4. 가게를 선택할 때 중요하게 생각하시는 요소를 선택해 주세요.", options: ["다양성", "맛", "가격", "접근성", "분위기"] },
-    { key: "q5", text: "5. 한 끼 식사 시 선호하는 가격대를 선택해 주세요.", options: ["5,000원 이하", "5,000~7,000원", "10,000~15,000원", "15,000원 이상"] },
-  ];
-
-  const handleSelect = (qKey, ans, stepIndex) => {
-    setAnswers({ ...answers, [qKey]: ans });
+  useEffect(() => {
+    setLoading(true);
+    fetchSurveys()
+      .then(async (data) => {
+        const surveysWithOptions = await Promise.all(
+          data.map(async (q) => {
+            try {
+              const options = await fetchSurveyOptions(q.surveyId);
+              return { ...q, options }; // optionId + optionText 함께 저장
+            } catch (err) {
+              console.error(`옵션 API 오류 (surveyId=${q.surveyId}):`, err);
+              return { ...q, options: [] };
+            }
+          })
+        );
+        setQuestions(surveysWithOptions);
+      })
+      .catch((err) => console.error("설문 질문 API 오류:", err))
+      .finally(() => setLoading(false));
+  }, []);
+  
+  const handleSelect = (surveyId, option, stepIndex) => {
+    setAnswers({ ...answers, [surveyId]: option }); // option 객체 저장
     setCurrentStep(stepIndex + 1);
   };
-
-  const handleSubmit = () => {
-    console.log("저장된 설문 응답:", answers);
-    navigate(`/vote/${categoryId}/${id}/complete`, { state: { id, answers } });
+  
+  const handleSubmit = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        alert("로그인이 필요합니다!");
+        return;
+      }
+  
+      const payload = Object.entries(answers).map(([surveyId, option]) => ({
+        restaurantId: Number(id),   // URL 파라미터
+        userId: Number(userId),     // 로그인 사용자
+        optionId: option.optionId,  // 선택한 옵션 ID
+        surveyId: Number(surveyId),
+      }));
+  
+      console.log("📤 저장 요청:", payload);
+      await saveSurveyAnswers(payload);
+  
+      // alert("설문 응답이 저장되었습니다!");
+      navigate(`/vote/${categoryId}/${id}/complete`, { state: { id, answers } });
+    } catch (err) {
+      console.error("설문 저장 오류:", err);
+      // alert("설문 저장에 실패했습니다.");
+    }
   };
-
-  return (
-    <>
-      <NavBar />
-      <PageWrapper>
-        {/* 설문 박스 바깥, 중앙에 텍스트 */}
-        <HeaderText>
-        <Title>
-        투표 전에{" "}
-        <Highlight>
-            잠깐
-            <DotWrapper>
-            <Dot>•</Dot>
-            <Dot>•</Dot>
-            </DotWrapper>
-        </Highlight>
-        !
-        </Title>
-          <p>
-            <span className="highlight">설문 참여</span>로 의견을 모아주세요.
-          </p>
-        </HeaderText>
-
-        <Container>
-          <StepBarWrapper>
-            <SurveyStepBar current={currentStep} />
-          </StepBarWrapper>
-
-          {questions.map((q, idx) => (
-            <SurveyQuestion
-              key={q.key}
-              question={q.text}
-              options={q.options}
-              selected={answers[q.key]}
-              onSelect={(ans) => handleSelect(q.key, ans, idx)}
-            />
-          ))}
-
-          <Footer>
-            투표를 진행하려면, ‘투표하기’ 버튼을 눌러주세요.
-            <br />
-            버튼을 누르면 자동으로 투표가 됩니다.
-            <br />
-            <SubmitButton onClick={handleSubmit}><img src={voteIcon}/>투표하기</SubmitButton>
-          </Footer>
-        </Container>
-      </PageWrapper>
-    </>
-  );
-}
+  
+    return (
+      <>
+        <NavBar />
+        <PageWrapper>
+          <HeaderText>
+            <Title>
+              투표 전에{" "}
+              <Highlight>
+                잠깐
+                <DotWrapper>
+                  <Dot>•</Dot>
+                  <Dot>•</Dot>
+                </DotWrapper>
+              </Highlight>
+              !
+            </Title>
+            <p>
+              <span className="highlight">설문 참여</span>로 의견을 모아주세요.
+            </p>
+          </HeaderText>
+  
+          <Container>
+            <StepBarWrapper>
+              <SurveyStepBar current={currentStep} />
+            </StepBarWrapper>
+  
+            {loading ? (
+              <FullPageSpinner/>
+            ) : (
+              questions.map((q, idx) => (
+                <SurveyQuestion
+                  key={q.surveyId}
+                  question={q.surveyText}
+                  options={q.options} // API에서 불러온 옵션 사용
+                  selected={answers[q.surveyId]}
+                  onSelect={(ans) => handleSelect(q.surveyId, ans, idx)}
+                />
+              ))
+            )}
+  
+            <Footer>
+              투표를 진행하려면, ‘투표하기’ 버튼을 눌러주세요.
+              <br />
+              버튼을 누르면 자동으로 투표가 됩니다.
+              <br />
+              <SubmitButton onClick={handleSubmit}>
+                <img src={voteIcon} alt="투표아이콘" />
+                투표하기
+              </SubmitButton>
+            </Footer>
+          </Container>
+        </PageWrapper>
+      </>
+    );
+  }

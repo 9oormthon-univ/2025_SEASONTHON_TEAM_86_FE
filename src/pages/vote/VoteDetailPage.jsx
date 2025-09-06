@@ -1,11 +1,12 @@
 // src/pages/vote/SearchPage.jsx
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useParams , useNavigate} from "react-router-dom";
 import styled from "styled-components";
 import NavBar from "../../components/common/NavBar";
 import FoodCard from "../../components/vote/StoreMainInfo";
 import MenuList from "../../components/vote/MenuList"; 
 import arrow from "../../assets/arrow.svg";
+import { fetchMenusByRestaurant, fetchRestaurantDetail } from "../../api/restaurantApi";
 
 const PageContainer = styled.div`
   display: flex;
@@ -83,7 +84,23 @@ const LeftSection = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 16px;  
+  max-height: calc(100vh - 80px); /* 네브바 높이만큼 빼기 */        
+  padding-right: 10px;           /* 스크롤바랑 컨텐츠 사이 여백 */
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  margin-top: 10px;
 
+    /* 스크롤바 스타일 */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 `;
 
 const RightSection = styled.div`
@@ -103,105 +120,130 @@ const Divider = styled.div`
   align-self: stretch; 
 `;
 
+const FullPageSpinner = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3); /* 살짝 하얀 반투명 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+
+  &::after {
+    content: "";
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #ff6b00;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
+
 export default function SearchPage() {
-    const { categoryId } = useParams();
-    // 메뉴 데이터 준비
-    const { id } = useParams(); 
-    const navigate = useNavigate();
-    const menuData = [
-        {
-          id: 1,
-          title: "치즈 폭탄 오꼬노미야끼",
-          price: "₩15,000",
-          desc: "치즈를 아낌없이 올려 풍미를 극대화한 오꼬노미야끼...",
-          img: "https://via.placeholder.com/100",
-        },
-        {
-          id: 2,
-          title: "미니 돈까스 6p",
-          price: "₩6,000",
-          desc: "바삭한 식감과 가성비 좋은 미니 돈까스...",
-          img: "https://via.placeholder.com/100",
-        },
-        {
-            id: 3,
-            title: "미니 돈까스 6p",
-            price: "₩6,000",
-            desc: "바삭한 식감과 가성비 좋은 미니 돈까스...",
-            img: "https://via.placeholder.com/100",
-          },
-          {
-            id: 4,
-            title: "미니 돈까스 6p",
-            price: "₩6,000",
-            desc: "바삭한 식감과 가성비 좋은 미니 돈까스...",
-            img: "https://via.placeholder.com/100",
-          },
-          {
-            id: 5,
-            title: "미니 돈까스 6p",
-            price: "₩6,000",
-            desc: "바삭한 식감과 가성비 좋은 미니 돈까스...",
-            img: "https://via.placeholder.com/100",
-          },
-          {
-            id: 6,
-            title: "미니 돈까스 6p",
-            price: "₩6,000",
-            desc: "바삭한 식감과 가성비 좋은 미니 돈까스...",
-            img: "https://via.placeholder.com/100",
-          },
-          {
-            id: 7,
-            title: "미니 돈까스 6p",
-            price: "₩6,000",
-            desc: "바삭한 식감과 가성비 좋은 미니 돈까스...",
-            img: "https://via.placeholder.com/100",
-          },
-      ];
+  const { categoryId, id: restaurantId } = useParams();
+  const navigate = useNavigate();
+
+  const [menus, setMenus] = useState([]);
+  const [loadingMenus, setLoadingMenus] = useState(false);
+
+  const [storeInfo, setStoreInfo] = useState(null);
+  const [loadingStore, setLoadingStore] = useState(false);
+
+  // 왼쪽: 가게 상세 API 호출
+  useEffect(() => {
+    if (!restaurantId) return;
+
+    setLoadingStore(true);
+    fetchRestaurantDetail(restaurantId)
+      .then((data) => {
+        console.log("가게 상세 API 응답:", data);
+        setStoreInfo({
+          image: data.restaurantImageUrl || "https://via.placeholder.com/400",
+          title: data.restaurantName,
+          likes: data.restaurantLike,
+          description: data.restaurantInfo,
+          votes: data.restaurantVote,
+        });
+      })
+      .catch((err) => {
+        console.error("가게 상세 API 오류:", err);
+      })
+      .finally(() => setLoadingStore(false));
+  }, [restaurantId]);
+
+  // 오른쪽: 메뉴 API 호출
+  useEffect(() => {
+    if (!restaurantId) return;
+
+    setLoadingMenus(true);
+    fetchMenusByRestaurant(restaurantId)
+      .then((data) => {
+        console.log("메뉴 API 응답:", data);
+        setMenus(data);
+      })
+      .catch((err) => {
+        console.error("메뉴 API 오류:", err);
+      })
+      .finally(() => setLoadingMenus(false));
+  }, [restaurantId]);
 
   return (
     <PageContainer>
-      {/* 상단 네비게이션바 */}
       <NavBar />
-
+  
+      {(loadingStore || loadingMenus) && <FullPageSpinner />}
+  
       <ContentWrapper>
         {/* 왼쪽: 가게 정보 */}
         <LeftSection>
-            <HeaderSection>
+          <HeaderSection>
             <DotWrapper>
-                <Dot>•</Dot>
-                <Dot>•</Dot>
+              <Dot>•</Dot>
+              <Dot>•</Dot>
             </DotWrapper>
-                <Title>
-                <span>투표</span>할 가게를 선택하고,
-                <br />
-                정보를 확인하세요!
-                </Title>
-                <SubText onClick={() => navigate(`/vote/${categoryId}`)}>
-                <img src={arrow} alt="뒤로가기" style={{ width: '19px', height: '19px' }} />
-                다시 선택하기
-                </SubText>
-            </HeaderSection>
-          <FoodCard
-            image="https://via.placeholder.com/400"
-            title="오키 오꼬노미야끼"
-            likes={37}
-            description="지글지글 철판 위에서 갓 부쳐내는 오코노미야키의 풍미를 즐겨보세요. 신선한 채소와 해물, 고기, 치즈까지 다양한 재료를 듬뿍 넣어 겉은 바삭하고 속은 촉촉하게 완성했습니다. 정통 일본 가정식의 따뜻한 맛을 그대로 재현해 남녀노소 누구나 만족할 수 있는 한 끼를 제공합니다. 취향에 따라 소스와 토핑을 고르는 재미까지 더해져, 언제 찾아와도 새로운 맛을 경험할 수 있는 특별한 오코노미야키 전문점입니다."
-            votes={37}
-            onVote={() => console.log("투표하기")}
-            onSurvey={() => navigate(`/vote/${categoryId}/${id}/survey`)}
-          />
+            <Title>
+              <span>투표</span>할 가게를 선택하고,
+              <br />
+              정보를 확인하세요!
+            </Title>
+            <SubText onClick={() => navigate(`/vote/${categoryId}`)}>
+              <img src={arrow} alt="뒤로가기" style={{ width: "19px", height: "19px" }} />
+              다시 선택하기
+            </SubText>
+          </HeaderSection>
+  
+          {storeInfo && (
+            <FoodCard
+              image={storeInfo.image}
+              title={storeInfo.title}
+              likes={storeInfo.likes}
+              description={storeInfo.description}
+              votes={storeInfo.votes}
+              onVote={() => console.log("투표하기")}
+              onSurvey={() => navigate(`/vote/${categoryId}/${restaurantId}/survey`)}
+            />
+          )}
         </LeftSection>
-
+  
         {/* 가운데 구분선 */}
         <Divider />
-
+  
         {/* 오른쪽: 메뉴 리스트 */}
         <RightSection>
-          <MenuList menus={menuData}/>
+          <MenuList menus={menus} />
         </RightSection>
       </ContentWrapper>
     </PageContainer>
   );
+  
 }

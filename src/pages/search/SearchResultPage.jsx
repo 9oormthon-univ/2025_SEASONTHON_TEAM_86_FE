@@ -12,6 +12,7 @@ export default function SearchResultPage() {
 
   // 정렬 기준 상태 ("votes" | "likes")
   const [sortField, setSortField] = useState("votes");
+  const category = 4;
 
   return (
     <PageWrapper>
@@ -36,8 +37,8 @@ export default function SearchResultPage() {
         <VoteList
           sortOrder="desc"          // 항상 내림차순
           sortField={sortField}     // "votes" 또는 "likes"
-          category={4}              // 예: 일식 카테고리
-          onItemClick={(id) => navigate(`/vote/${id}`)}
+          category={category}              // 예: 일식 카테고리
+          onItemClick={(id) => navigate(`/vote/${category}/${id}`)}
         />
       </ContentSection>
     </PageWrapper>

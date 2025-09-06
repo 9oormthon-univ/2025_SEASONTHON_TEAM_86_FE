@@ -2,9 +2,9 @@ import styled from "styled-components";
 import kakaoLogo from "../../assets/kakao.svg";
 import logoIcon from "../../assets/logo_orange.svg";
 
-export default function LoginPage() {
-  const KAKAO_AUTH_URL = import.meta.env.VITE_KAKAO_AUTH_URL;
+const KAKAO_AUTH_URL = import.meta.env.VITE_KAKAO_AUTH_URL;
 
+export default function LoginPage() {
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };

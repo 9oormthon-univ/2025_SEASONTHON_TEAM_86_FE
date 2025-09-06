@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import voteIcon from '../../assets/vote.svg';
-import voteOrangeIcon from '../../assets/vote_orange.svg';
-import heartIcon from '../../assets/heart.svg';
+// src/components/search/VoteListForSearch.jsx
+import styled from "styled-components";
+import voteIcon from "../../assets/vote.svg";
+import voteOrangeIcon from "../../assets/vote_orange.svg";
+import heartIcon from "../../assets/heart.svg";
 
 const Container = styled.div`
   padding: 20px 0;
@@ -31,9 +30,9 @@ const VoteItem = styled.div`
 `;
 
 const FoodImage = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
+  width: 186px;
+  height: 142px;
+  border-radius: 8px 0 0 8px;
   object-fit: cover;
 `;
 
@@ -48,14 +47,14 @@ const Info = styled.div`
 
 const Title = styled.h3`
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #FF6B00;
 `;
 
 const Description = styled.p`
   margin: 5px 0 0;
-  font-size: 14px;
+  font-size: 17px;
   color: #333;
 `;
 
@@ -71,7 +70,7 @@ const Votes = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   color: #444;
 `;
@@ -81,7 +80,7 @@ const VoteButton = styled.button`
   color: #FF5D17;
   border: 2px solid #FF5D17;
   border-radius: 17px;
-  padding: 5px 18px;
+  padding: 6px 19px;
   cursor: pointer;
   font-weight: 500;
   font-size: 16px;
@@ -126,77 +125,55 @@ const LikeInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
 
   img {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
   }
 `;
 
-export default function VoteList({ sortOrder, sortField = "votes", onItemClick, category }) {
-  const mockData = [
-    {
-      id: 1,
-      title: 'Surfer Pizza 4계절 피자',
-      desc: '시원한 바다향 가득한 4계절 피자!',
-      votes: 231,
-      likes: 500,
-      img: 'https://via.placeholder.com/100',
-      categoryId: 4,
-    },
-    {
-      id: 2,
-      title: 'Fever Pizza 핫치킨 피자',
-      desc: '매콤한 핫치킨 피자!',
-      votes: 158,
-      likes: 320,
-      img: 'https://via.placeholder.com/100',
-      categoryId: 4,
-    },
-    {
-      id: 3,
-      title: 'Univo Sushi 모듬 초밥',
-      desc: '신선한 초밥 세트!',
-      votes: 102,
-      likes: 210,
-      img: 'https://via.placeholder.com/100',
-      categoryId: 2,
-    },
-  ];
+export default function VoteListForSearch({ restaurants = [], sortField = "votes", onItemClick }) {
+  if (!restaurants.length) {
+    return <p style={{ marginLeft: "20px" }}>결과가 없습니다.</p>;
+  }
 
-  // 카테고리 필터
-  const filteredData = mockData.filter((item) => item.categoryId === category);
-
-  // 정렬
-  const sortedData = [...filteredData].sort((a, b) => {
-    if (sortOrder === 'asc') return a[sortField] - b[sortField];
-    return b[sortField] - a[sortField];
+  // 정렬 처리 (API 응답 기준)
+  const sortedData = [...restaurants].sort((a, b) => {
+    if (sortField === "votes") return b.restaurantVote - a.restaurantVote;
+    if (sortField === "likes") return b.restaurantLike - a.restaurantLike;
+    return 0;
   });
 
   return (
     <Container>
       {sortedData.map((item) => (
-        <VoteItem key={item.id} onClick={() => onItemClick?.(item.id)}>
-          <FoodImage src={item.img} alt={item.title} />
+        <VoteItem
+          key={item.restaurantId}
+          onClick={() => onItemClick?.(item.restaurantId, item.restaurantType)} // id + type 넘김
+        >
+          <FoodImage
+            src={item.restaurantImageUrl || "https://via.placeholder.com/100"}
+            alt={item.restaurantName}
+          />
           <Info>
-            <Title>{item.title}</Title>
-            <Description>{item.desc}</Description>
+            <Title>{item.restaurantName}</Title>
+            <Description>{item.restaurantInfo}</Description>
           </Info>
           <Side>
             {sortField === "votes" ? (
-                <Votes>투표 수: {item.votes}</Votes>
+              <Votes>투표 수: {item.restaurantVote}</Votes>
             ) : (
-                <LikeInfo>
+              <LikeInfo>
                 <img src={heartIcon} alt="heart" />
-                {item.likes}
-                </LikeInfo>
+                {item.restaurantLike}
+              </LikeInfo>
             )}
             <VoteButton>
-                <img src={voteOrangeIcon} alt="vote icon" className="default-icon" />
-                <img src={voteIcon} alt="vote icon hover" className="hover-icon" />
-                투표하기
+              <img src={voteOrangeIcon} alt="vote icon" className="default-icon" />
+              <img src={voteIcon} alt="vote icon hover" className="hover-icon" />
+              투표하기
             </VoteButton>
           </Side>
         </VoteItem>

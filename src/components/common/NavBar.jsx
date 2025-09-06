@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/derere.svg";
@@ -8,13 +8,21 @@ import searchOrange from "../../assets/search_orange.svg";
 export default function NavBar() {
   const navigate = useNavigate();
 
-    // 나중에는 API에서 받아올 값 (지금은 임시로 설정)
-    const isMerchant = false; // true면 가맹점주, false면 일반 사용자
-    // 로그인 여부 (임시로 상태로 관리)
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
-    const handleLogout = () => {
-      setIsLoggedIn(false); // 상태만 false로 변경
-    };
+  // 나중에는 API에서 받아올 값 (지금은 임시로 설정)
+  const isMerchant = false; // true면 가맹점주, false면 일반 사용자
+  // 로그인 여부 (임시로 상태로 관리)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken"); // 로그인 시 저장한 토큰
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    setIsLoggedIn(false);
+    navigate("/"); // 로그아웃 후 홈으로 이동
+  };
 
   return (
     <Bar>
@@ -26,8 +34,7 @@ export default function NavBar() {
           <StyledLink to="/ownerhomepage">홈 home</StyledLink>
         ) : (
           <StyledLink to="/">홈 home</StyledLink>
-        )
-        }
+        )}
         {isMerchant ? (
           <StyledLink to="/register">등록 register</StyledLink>
         ) : (
@@ -35,22 +42,22 @@ export default function NavBar() {
         )}
         <StyledLink to="/results">결과 result</StyledLink>
         {!isMerchant && (
-        <SearchLink to="/search">
-          {({ isActive }) => (
-            <SearchButton $active={isActive}>
-              <img src={isActive ? searchOrange : searchGray} alt="search" />
-            </SearchButton>
-          )}
-        </SearchLink>
+          <SearchLink to="/search">
+            {({ isActive }) => (
+              <SearchButton $active={isActive}>
+                <img src={isActive ? searchOrange : searchGray} alt="search" />
+              </SearchButton>
+            )}
+          </SearchLink>
         )}
       </Menu>
       <SearchForm>
-      {isLoggedIn ? (
+        {isLoggedIn ? (
           <LogoutButton type="button" onClick={handleLogout}>
             logout
           </LogoutButton>
         ) : (
-          <LoginButton type="button" onClick={() => navigate('/login')}>
+          <LoginButton type="button" onClick={() => navigate("/login")}>
             login
           </LoginButton>
         )}
@@ -178,7 +185,7 @@ const LoginButton = styled.button`
 `;
 
 const LogoutButton = styled.button`
-  background: #d5f08a;     
+  background: #d5f08a;
   color: #ff6b00;
   border: 2px solid #ff6b00;
   border-radius: 20px;
@@ -188,6 +195,6 @@ const LogoutButton = styled.button`
   font-size: 16px;
 
   &:hover {
-    opacity: 0.9;   
+    opacity: 0.9;
   }
 `;

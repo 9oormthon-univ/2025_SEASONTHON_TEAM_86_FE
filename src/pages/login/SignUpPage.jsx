@@ -6,9 +6,9 @@ import lockIcon from "../../assets/lock.svg";
 import unlockIcon from "../../assets/lock_white.svg";
 
 export default function SignUpPage() {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(localStorage.getItem("userName") || "");
+  const [email, setEmail] = useState(localStorage.getItem("userEmail") || "");
   const [region, setRegion] = useState("");
-  const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ export default function SignUpPage() {
       }
     } catch (error) {
       console.error("회원가입 실패:", error.response?.data || error.message);
-      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+      alert("회원가입에 실패했습니다. 다시 시도해 주세요.");
     }
   };
 

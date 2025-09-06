@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 export default function OAuthRedirectPage() {
   const navigate = useNavigate();
@@ -13,6 +14,11 @@ export default function OAuthRedirectPage() {
 
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
+      const decoded = jwtDecode(accessToken);
+      console.log(decoded);
+      // 이메일, 이름 저장
+      localStorage.setItem("userEmail", decoded.sub || "");
+      localStorage.setItem("userName", decoded.name || "");
     }
     if (refreshToken) {
       localStorage.setItem("refreshToken", refreshToken);
@@ -24,9 +30,9 @@ export default function OAuthRedirectPage() {
     }
 
     // 기존 유저면 홈 화면으로 이동
-    if (role === "CUSTOMER") {
+    if (role === "고객") {
       navigate("/");
-    } else if (role === "OWNER") {
+    } else if (role === "사장님") {
       navigate("/ownerhomepage");
     } else {
       // 롤 정보 없으면 기본 홈으로

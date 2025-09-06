@@ -229,7 +229,7 @@ const BackgroundImage = styled.img`
 
 const Overlay = styled.div`
   position: absolute;
-  top: 45%;
+  top: 40%;
   left: 9%;
   right: 9%;
   color: white;
@@ -238,7 +238,7 @@ const Overlay = styled.div`
 
 const Title = styled.h1`
   font-family: "Pretendard";
-  font-size: 101px;
+  font-size: 90px;
   font-weight: 500;
   margin: 0;
 `;

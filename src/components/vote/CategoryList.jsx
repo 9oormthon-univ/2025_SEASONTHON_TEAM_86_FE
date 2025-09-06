@@ -16,7 +16,7 @@ const categories = [
   { id: 4, name: "양식", img: yangsikImg },
   { id: 5, name: "분식", img: bunsikImg },
   { id: 6, name: "패스트푸드", img: fastfoodImg },
-  { id: 7, name: "카페/디저트", img: cafeImg },
+  { id: 7, name: "카페_디저트", img: cafeImg },
   { id: 8, name: "기타", img: etcImg },
 ];
 

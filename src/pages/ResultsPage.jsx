@@ -15,6 +15,7 @@ import {
 const ResultsPage = () => {
   const [topRestaurants, setTopRestaurants] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
     async function loadData() {
@@ -22,16 +23,18 @@ const ResultsPage = () => {
         const top3 = await fetchTop3Restaurants();
         const all = await fetchAllRestaurants();
 
-        console.log("✅ Top3 API 응답:", top3);
-        console.log("✅ All API 응답:", all);
+        console.log("Top3 API 응답:", top3);
+        console.log("All API 응답:", all);
 
         // API는 1~N 순서로 반환되므로 그대로 사용
         setTopRestaurants(top3);
         setRestaurants(all.slice(3, 7)); // 4위~7위만 잘라서 표시
       } catch (err) {
         console.error("결과 불러오기 실패:", err);
-      }
+      } finally {
+        setLoading(false); // 끝나면 로딩 OFF
     }
+  }
     loadData();
   }, []);
 
@@ -39,6 +42,10 @@ const ResultsPage = () => {
     <>
       <NavBar />
       <Container>
+      {loading ? (
+            <FullPageSpinner />
+        ) : (
+          <>
         <Title>
           가맹 투표 브랜드, <Bold>Top 3</Bold> <Highlight> 최종 순위</Highlight>
           는?
@@ -109,6 +116,8 @@ const ResultsPage = () => {
             </RestaurantRow>
           ))}
         </LowerRankingList>
+        </>
+        )}
       </Container>
     </>
   );
@@ -335,4 +344,32 @@ const VoteBadgeRow = styled.div`
   font-size: 19px;
   font-weight: 700;
   color: #b0afab;
+`;
+
+const FullPageSpinner = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3); /* 살짝 하얀 반투명 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+
+  &::after {
+    content: "";
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #ff6b00;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 `;

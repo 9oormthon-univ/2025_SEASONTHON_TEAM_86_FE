@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NavBar from "../components/common/NavBar.jsx";
@@ -13,15 +13,17 @@ import fastfood from "../assets/fastfood.png";
 import cafe from "../assets/cafe.png";
 import etc from "../assets/etc.png";
 import pick from "../assets/pick.svg";
-import rank1 from "../assets/rank1.png";
-import rank2 from "../assets/rank2.png";
-import rank3 from "../assets/rank3.png";
-import rank4 from "../assets/rank4.png";
 import heart from "../assets/heart.svg";
+
+// API 함수 import
+import {
+  fetchLikeAll,
+  fetchLikeTop1,
+  fetchLikeTop3,
+} from "../api/restaurantApi.js";
 
 const HomePage = () => {
   const navigate = useNavigate();
-
   const [selected, setSelected] = useState(null);
 
   const categories = [
@@ -31,66 +33,37 @@ const HomePage = () => {
     { id: 4, img: yangsik, name: "양식" },
     { id: 5, img: bunsik, name: "분식" },
     { id: 6, img: fastfood, name: "패스트푸드" },
-    { id: 7, img: cafe, name: "카페-디저트" },
+    { id: 7, img: cafe, name: "카페_디저트" },
     { id: 8, img: etc, name: "기타" },
   ];
 
-  const [filter, setFilter] = useState("all"); // 초기값: All
+  const [filter, setFilter] = useState("all");
+  const [restaurants, setRestaurants] = useState([]);
+
+  // 필터가 바뀔 때마다 API 호출
+  useEffect(() => {
+    async function loadData() {
+      try {
+        if (filter === "all") {
+          const data = await fetchLikeAll();
+          setRestaurants(data);
+        } else if (filter === "top1") {
+          const data = await fetchLikeTop1();
+          setRestaurants([data]); // 단일 객체이므로 배열로 감싸줌
+        } else if (filter === "top3") {
+          const data = await fetchLikeTop3();
+          setRestaurants(data);
+        }
+      } catch (err) {
+        console.error("데이터 불러오기 실패:", err);
+      }
+    }
+    loadData();
+  }, [filter]);
 
   const handleFilter = (type) => {
     setFilter(type);
   };
-
-  // 예시 데이터
-  const restaurant = [
-    {
-      id: 1,
-      img: rank1,
-      name: "Rosteak",
-      // flag: "/assets/usa.png",
-      description: "스테이크 전문점 입니다.",
-      detail:
-        "매일 엄선된 패티와 풍부한 재료를 사용하여, 누구나 쉽게 즐길 수 있으면서도, 매 순간 정성과 즐거움을 느낄 수 있도록 세심하게 준비했습니다.",
-      likes: 121,
-    },
-    {
-      id: 2,
-      img: rank2,
-      name: "행복한 돼지",
-      // flag: "/assets/kor.png",
-      description: "숯불향 돼지고기 전문점 입니다.",
-      detail:
-        "정성껏 구워낸 신선한 삼겹살과 함께하는 즐거운 식사 시간. 두툼한 고기와 풍부한 육즙, 그리고 직접 담근 양념까지 더해져 매 순간 만족스러운 한 끼를 제공합니다.",
-      likes: 98,
-    },
-    {
-      id: 3,
-      img: rank3,
-      name: "할머니 분식집",
-      // flag: "/assets/kor.png",
-      description: "할머니의 손맛으로 만든 분식 전문점 입니다.",
-      detail:
-        "따끈한 떡볶이, 바삭한 튀김, 달콤한 순대까지. 정성껏 만든 소스와 신선한 재료로 매 순간 만족스러운 한 끼를 제공합니다. 친구와 가족, 언제나 함께 즐길 수 있는 따뜻한 분식 공간입니다.",
-      likes: 95,
-    },
-    {
-      id: 4,
-      img: rank4,
-      name: "Ross Pasta",
-      // flag: "/assets/italy.png",
-      description: "이탈리아 요리 전문점 입니다.",
-      detail:
-        "깊은 풍미의 소스와 알맞게 삶아낸 면이 어우러져 특별한 한 끼를 제공합니다. 친구, 가족과 함께 편안한 분위기 속에서 풍성한 맛을 경험해 보세요.",
-      likes: 81,
-    },
-  ];
-
-  const filteredRestaurants = restaurant.filter((res, idx) => {
-    if (filter === "all") return true;
-    if (filter === "top1") return idx === 0;
-    if (filter === "top3") return idx < 3;
-  });
-
   return (
     <>
       <NavBar />
@@ -181,24 +154,27 @@ const HomePage = () => {
         </LastSection>
 
         <RestaurantList>
-          {filteredRestaurants.map((res, index) => (
-            <div key={res.id}>
+          {restaurants.map((res, index) => (
+            <div key={res.restaurantId}>
               <RestaurantCard>
                 <Rank $rank={index + 1}>{index + 1}</Rank>
-                <RestaurantImage src={res.img} alt={res.name} />
+                <RestaurantImage
+                  src={res.restaurantImageUrl}
+                  alt={res.restaurantName}
+                />
                 <RestaurantInfo>
-                  <RestaurantName>{res.name}</RestaurantName>
-                  {/* <FlagIcon src={res.flag} alt={`${res.name}`} /> */}
-                  <RestaurantDesc>{res.description}</RestaurantDesc>
-                  <RestaurantDetail>{res.detail}</RestaurantDetail>
+                  <RestaurantName>{res.restaurantName}</RestaurantName>
+                  <RestaurantDesc>{res.restaurantInfo}</RestaurantDesc>
+                  <RestaurantDetail>
+                    타입: {res.restaurantType} | 위치: {res.restaurantLocation}
+                  </RestaurantDetail>
                 </RestaurantInfo>
                 <LikeContainer>
                   <HeartImage src={heart} alt="Heart" />
-                  <LikeCount>{res.likes}</LikeCount>
+                  <LikeCount>{res.restaurantLike}</LikeCount>
                 </LikeContainer>
               </RestaurantCard>
-              {/* 마지막 항목이 아니면 구분선 */}
-              {index < filteredRestaurants.length - 1 && <BoldDivider />}
+              {index < restaurants.length - 1 && <BoldDivider />}
             </div>
           ))}
         </RestaurantList>
@@ -463,16 +439,18 @@ const Rank = styled.span`
 `;
 
 const RestaurantImage = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+  width: 200px;        /* 가로 길이 */
+  height: 270px;       /* 세로 짧게 */
+  object-fit: cover;   /* 비율 유지하면서 잘림 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  margin-left: 18px;
 `;
 
 const RestaurantInfo = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 30px;
+  margin-left: 40px;
 `;
 
 const RestaurantName = styled.span`

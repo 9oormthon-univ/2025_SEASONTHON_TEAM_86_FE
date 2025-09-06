@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/derere.svg";
@@ -9,6 +10,11 @@ export default function NavBar() {
 
     // 나중에는 API에서 받아올 값 (지금은 임시로 설정)
     const isMerchant = false; // true면 가맹점주, false면 일반 사용자
+    // 로그인 여부 (임시로 상태로 관리)
+    const [isLoggedIn, setIsLoggedIn] = useState(false); 
+    const handleLogout = () => {
+      setIsLoggedIn(false); // 상태만 false로 변경
+    };
 
   return (
     <Bar>
@@ -34,7 +40,15 @@ export default function NavBar() {
         )}
       </Menu>
       <SearchForm>
-        <LoginButton type="submit">login</LoginButton>
+      {isLoggedIn ? (
+          <LogoutButton type="button" onClick={handleLogout}>
+            logout
+          </LogoutButton>
+        ) : (
+          <LoginButton type="button" onClick={() => navigate('/login')}>
+            login
+          </LoginButton>
+        )}
       </SearchForm>
     </Bar>
   );
@@ -155,5 +169,20 @@ const LoginButton = styled.button`
 
   &:hover {
     opacity: 0.9;
+  }
+`;
+
+const LogoutButton = styled.button`
+  background: #d5f08a;     
+  color: #ff6b00;
+  border: 2px solid #ff6b00;
+  border-radius: 20px;
+  padding: 7px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+
+  &:hover {
+    opacity: 0.9;   
   }
 `;

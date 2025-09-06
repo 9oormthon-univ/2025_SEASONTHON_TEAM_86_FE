@@ -86,3 +86,21 @@ export async function fetchAllRestaurants() {
   if (!res.ok) throw new Error('전체 랭킹 불러오기 실패');
   return await res.json();
 }
+
+export async function fetchLikeAll() {
+  const res = await fetch(`${BASE_URL}api/restaurant/like/all`);
+  if (!res.ok) throw new Error("전체 좋아요순 불러오기 실패");
+  return await res.json();
+}
+
+export async function fetchLikeTop1() {
+  const res = await fetch(`${BASE_URL}api/restaurant/like/top1`);
+  if (!res.ok) throw new Error("좋아요 Top1 불러오기 실패");
+  return await res.json();
+}
+
+export async function fetchLikeTop3() {
+  const res = await fetch(`${BASE_URL}api/restaurant/like/top3`);
+  if (!res.ok) throw new Error("좋아요 Top3 불러오기 실패");
+  return await res.json();
+}

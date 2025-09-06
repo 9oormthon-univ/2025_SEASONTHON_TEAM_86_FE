@@ -16,7 +16,7 @@ const categoryMap = {
   4: "양식",
   5: "분식",
   6: "패스트푸드",
-  7: "카페-디저트",
+  7: "카페_디저트",
   8: "기타",
 };
 const reverseCategoryMap = Object.fromEntries(

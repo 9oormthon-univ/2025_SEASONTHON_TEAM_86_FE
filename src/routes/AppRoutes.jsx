@@ -14,6 +14,8 @@ import RegisterCheckPage from "../pages/register/RegisterCheckPage";
 import ResultsSurveyPage from "../pages/ResultsSurveyPage"
 import ConfirmPage from "../pages/ConfirmPage"
 import RejectPage from "../pages/RejectPage"
+import LoginPage from '../pages/login/LoginPage';
+import SignUpPage from '../pages/login/SignUpPage';
 // import ResultsPage from '../pages/ResultsPage';
 
 function AppRoutes() {
@@ -44,6 +46,10 @@ function AppRoutes() {
         {/* 검색 */}
         <Route path="/search" element={<SearchPage />} />
         <Route path="/search/:keyword" element={<SearchResultPage />} />
+
+        {/* 로그인 */}
+        <Route path='/login' element={<LoginPage/>}/>
+        <Route path='/login/signup' element={<SignUpPage/>}/>
       </Routes>
     </BrowserRouter>
   );

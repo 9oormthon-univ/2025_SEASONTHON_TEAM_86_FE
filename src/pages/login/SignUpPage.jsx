@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import _client from "../../api/_client";
 import styled from "styled-components";
 import lockIcon from "../../assets/lock.svg";
 import unlockIcon from "../../assets/lock_white.svg";
@@ -11,10 +12,34 @@ export default function SignUpPage() {
   const [role, setRole] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`이름: ${name}, 이메일: ${email}, 지역: ${region}, 롤: ${role}`);
-    navigate("/");
+
+    if (!name || !email || !region || !role) return;
+
+    try {
+      const response = await _client.post("/signup", {
+        username: name,
+        email,
+        location: region,
+        usertype: role,
+      });
+
+      // 서버가 성공적으로 회원가입 처리
+      console.log("회원가입 성공:", response.data);
+
+      // 선택한 롤에 따라 홈 화면으로 이동
+      if (role === "고객") {
+        navigate("/");
+      } else if (role === "사장님") {
+        navigate("/ownerhomepage");
+      } else {
+        navigate("/"); // 기본
+      }
+    } catch (error) {
+      console.error("회원가입 실패:", error.response?.data || error.message);
+      alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   const isDisabled = !name || !email || !region || !role;

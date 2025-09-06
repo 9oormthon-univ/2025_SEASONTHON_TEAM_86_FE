@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import NavBar from "../components/common/NavBar";
@@ -17,8 +16,11 @@ const Background = styled.div`
   height: 100vh;
 
   /* 배경 이미지 + 그라데이션 */
-  background: 
-    linear-gradient(to bottom, rgba(0,0,0,0.0) 10%, rgba(0,0,0,0.7) 100%), 
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 10%,
+      rgba(0, 0, 0, 0.7) 100%
+    ),
     url(${(props) => props.$bg}) no-repeat center center/cover;
 
   display: flex;
@@ -46,7 +48,7 @@ const Content = styled.div`
   h1 {
     font-size: 80px;
     font-weight: 700;
-    color: #D5F08A;
+    color: #d5f08a;
     margin: 0; /* 간격 줄이기 */
   }
 
@@ -57,11 +59,10 @@ const Content = styled.div`
     color: #fff;
 
     span {
-      color: #D5F08A; /* "완료" 강조 */
+      color: #d5f08a; /* "완료" 강조 */
     }
   }
 `;
-
 
 const Divider = styled.div`
   width: 80%; /* 전체 화면의 70% */
@@ -76,10 +77,10 @@ const SubText = styled.p`
   color: #ddd;
   margin-top: 0;
 
-  width: 80%;           /* 선과 같은 너비 */
-  margin-left: auto;    /* 좌우 가운데 정렬 */
+  width: 80%; /* 선과 같은 너비 */
+  margin-left: auto; /* 좌우 가운데 정렬 */
   margin-right: auto;
-  text-align: left;     /* 텍스트는 왼쪽 정렬 */
+  text-align: left; /* 텍스트는 왼쪽 정렬 */
 `;
 
 export default function ConfirmPage() {

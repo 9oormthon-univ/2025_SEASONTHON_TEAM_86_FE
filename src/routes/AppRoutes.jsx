@@ -16,6 +16,7 @@ import ResultsSurveyPage from "../pages/ResultsSurveyPage";
 import ConfirmPage from "../pages/ConfirmPage";
 import RejectPage from "../pages/RejectPage";
 import LoginPage from "../pages/login/LoginPage";
+import OAuthRedirectPage from "../pages/OAuthRedirectPage";
 import SignUpPage from "../pages/login/SignUpPage";
 
 function AppRoutes() {
@@ -57,6 +58,7 @@ function AppRoutes() {
         {/* 로그인 */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/oauth/redirect" element={<OAuthRedirectPage />} />
       </Routes>
     </BrowserRouter>
   );

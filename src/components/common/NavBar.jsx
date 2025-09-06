@@ -23,9 +23,9 @@ export default function NavBar() {
       </Logo>
       <Menu>
         {isMerchant ? (
-          <StyledLink to="/">홈 home</StyledLink>
+          <StyledLink to="/ownerhomepage">홈 home</StyledLink>
         ) : (
-          <StyledLink to="/homepage">홈 home</StyledLink>
+          <StyledLink to="/">홈 home</StyledLink>
         )
         }
         {isMerchant ? (

@@ -57,3 +57,20 @@ export async function fetchRestaurantDetail(restaurantId) {
 
   return await res.json(); // 가게 정보 + 메뉴 배열 포함
 }
+
+
+export async function searchRestaurants(restaurantName, sortBy = 'vote') {
+  const res = await fetch(
+    `${BASE_URL}api/restaurant/search?restaurantName=${encodeURIComponent(restaurantName)}&sortBy=${sortBy}`,
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error(`검색 실패: ${res.status}`);
+  }
+
+  return await res.json();
+}

@@ -9,6 +9,7 @@ import SortButtonsForSearch from '../../components/search/SortButtonsForSearch';
 export default function SearchResultPage() {
   const { keyword } = useParams(); // 예: "/search/스시"
   const navigate = useNavigate();
+  const category = 4;
 
   // 정렬 기준 상태 ("votes" | "likes")
   const [sortField, setSortField] = useState("votes");
@@ -36,8 +37,8 @@ export default function SearchResultPage() {
         <VoteList
           sortOrder="desc"          // 항상 내림차순
           sortField={sortField}     // "votes" 또는 "likes"
-          category={4}              // 예: 일식 카테고리
-          onItemClick={(id) => navigate(`/vote/${id}`)}
+          category={category}              // 예: 일식 카테고리
+          onItemClick={(id) => navigate(`/vote/${category}/${id}`)}
         />
       </ContentSection>
     </PageWrapper>

@@ -20,9 +20,9 @@ const MenuCard = styled.div`
 `;
 
 const MenuImage = styled.img`
-  width: 100px;
-  height: 80px;
-  border-radius: 6px;
+  width: 120px;
+  height: 100px;
+  border-radius: 7px 0 0 7px;
   object-fit: cover;
 `;
 

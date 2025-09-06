@@ -48,14 +48,14 @@ const Info = styled.div`
 
 const Title = styled.h3`
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   color: #ff6b00;
 `;
 
 const Description = styled.p`
   margin: 5px 0 0;
-  font-size: 14px;
+  font-size: 17px;
   color: #333;
 `;
 
@@ -71,7 +71,7 @@ const Votes = styled.span`
   display: flex; /* 안쪽에서도 flex */
   align-items: center; /* 세로 중앙 */
   justify-content: center; /* 가로 중앙 */
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   color: #444;
 `;
@@ -81,7 +81,7 @@ const VoteButton = styled.button`
   color: #ff5d17;
   border: 2px solid #ff5d17;
   border-radius: 17px;
-  padding: 5px 18px;
+  padding: 6px 19px;
   cursor: pointer;
   font-weight: 500;
   font-size: 16px;

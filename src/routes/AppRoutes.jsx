@@ -18,6 +18,7 @@ import RejectPage from "../pages/RejectPage";
 import LoginPage from "../pages/login/LoginPage";
 import OAuthRedirectPage from "../pages/OAuthRedirectPage";
 import SignUpPage from "../pages/login/SignUpPage";
+import OwnerResultsPage from "../pages/OwnerResultsPage"
 
 function AppRoutes() {
   return (
@@ -44,12 +45,14 @@ function AppRoutes() {
 
         {/* 결과 */}
         <Route path="/results" element={<ResultsPage />} />
-        <Route path="/results/:restaurantId" element={<ResultsSurveyPage />} />
+        <Route path="/resultsowner" element={<OwnerResultsPage />} />
+
+        <Route path="/resultsowner/:restaurantId" element={<ResultsSurveyPage />} />
         <Route
-          path="/results/:restaurantId/confirm"
+          path="/resultsowner/:restaurantId/confirm"
           element={<ConfirmPage />}
         />
-        <Route path="/results/:restaurantId/reject" element={<RejectPage />} />
+        <Route path="/resultsowner/:restaurantId/reject" element={<RejectPage />} />
 
         {/* 검색 */}
         <Route path="/search" element={<SearchPage />} />

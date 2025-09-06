@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const VoteItem = styled.div`
-  background-color: #D5F08A;
+  background-color: #F2EDE4;
   margin-bottom: 40px;
   padding: 15px;
   border-radius: 18px;
@@ -75,7 +75,7 @@ const Votes = styled.span`
 `;
 
 const VoteButton = styled.button`
-  background: #d5f08a;
+  background: #F2EDE4;
   color: #ff5d17;
   border: 2px solid #ff5d17;
   border-radius: 17px;

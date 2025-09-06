@@ -74,3 +74,15 @@ export async function searchRestaurants(restaurantName, sortBy = 'vote') {
 
   return await res.json();
 }
+
+export async function fetchTop3Restaurants() {
+  const res = await fetch(`${BASE_URL}api/restaurant/vote/top3`);
+  if (!res.ok) throw new Error('Top3 불러오기 실패');
+  return await res.json();
+}
+
+export async function fetchAllRestaurants() {
+  const res = await fetch(`${BASE_URL}api/restaurant/vote/all`);
+  if (!res.ok) throw new Error('전체 랭킹 불러오기 실패');
+  return await res.json();
+}

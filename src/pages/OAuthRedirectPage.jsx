@@ -9,8 +9,8 @@ export default function OAuthRedirectPage() {
     const params = new URLSearchParams(window.location.search);
     const accessToken = params.get("accessToken");
     const refreshToken = params.get("refreshToken");
-    const isNewUser = params.get("isNewUser") === "true";
-    const role = params.get("role");
+    // const isNewUser = params.get("isNewUser") === "true";
+    const role = localStorage.getItem("userRole")
 
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken);
@@ -19,16 +19,11 @@ export default function OAuthRedirectPage() {
       // 이메일, 이름 저장
       localStorage.setItem("userEmail", decoded.sub || "");
       localStorage.setItem("userName", decoded.name || "");
+      localStorage.setItem("userRole", decoded.role|| "");
     }
     if (refreshToken) {
       localStorage.setItem("refreshToken", refreshToken);
     }
-
-    if (isNewUser) {
-      navigate("/signup");
-      return;
-    }
-
     // 기존 유저면 홈 화면으로 이동
     if (role === "고객") {
       navigate("/");

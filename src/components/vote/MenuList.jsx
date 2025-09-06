@@ -59,17 +59,28 @@ const Description = styled.p`
 `;
 
 export default function MenuList({ menus }) {
+  if (!menus || menus.length === 0) {
+    return <p style={{ marginLeft: "40px" }}>메뉴가 없습니다.</p>;
+  }
+
   return (
     <ListWrapper>
       {menus.map((menu) => (
-        <MenuCard key={menu.id}>
-          <MenuImage src={menu.img} alt={menu.title} />
+        <MenuCard key={menu.restaurantMenuId}>
+          <MenuImage
+            src={menu.menuImageUrl || "https://via.placeholder.com/100"}
+            alt={menu.menuName}
+          />
           <Info>
             <Header>
-              <Title>{menu.title}</Title>
-              <Price>{menu.price}</Price>
+              <Title>{menu.menuName}</Title>
+              <Price>
+                {menu.menuPrice
+                  ? `${menu.menuPrice.toLocaleString()}원`
+                  : "가격 미정"}
+              </Price>
             </Header>
-            <Description>{menu.desc}</Description>
+            <Description>{menu.menuInfo}</Description>
           </Info>
         </MenuCard>
       ))}

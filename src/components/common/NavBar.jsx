@@ -22,7 +22,12 @@ export default function NavBar() {
         <img src={logo} alt="Logo" />
       </Logo>
       <Menu>
-        <StyledLink to="/">홈 home</StyledLink>
+        {isMerchant ? (
+          <StyledLink to="/">홈 home</StyledLink>
+        ) : (
+          <StyledLink to="/homepage">홈 home</StyledLink>
+        )
+        }
         {isMerchant ? (
           <StyledLink to="/register">등록 register</StyledLink>
         ) : (

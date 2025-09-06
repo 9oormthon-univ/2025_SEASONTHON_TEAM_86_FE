@@ -14,6 +14,8 @@ const Card = styled.div`
 const FoodImage = styled.img`
   width: 100%;
   border-radius: 8px;
+    max-width: 800px;   /* 가로 최대 크기 제한 */
+  max-height: 300px;  /* 세로 최대 크기 제한 */
   object-fit: cover;
 `;
 
